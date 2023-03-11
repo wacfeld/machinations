@@ -72,10 +72,12 @@ void Tape::set(std::string s) {
 std::ostream &operator<<(std::ostream &out, Tape &t) {
   for(int i = 0; i < t.size; i++)
   {
+    std::string symb = (t.data[i] == t.blank) ? " " : t.data[i];
+    
     if(i == t.pos) {
-      std::cout << '[' << t.data[i] << ']';
+      std::cout << '[' << symb << ']';
     } else {
-      std::cout << ' ' << t.data[i] << ' ';
+      std::cout << ' ' << symb << ' ';
     }
   }
 

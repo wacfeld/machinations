@@ -1,6 +1,8 @@
 #ifndef TABLE_H
 #define TABLE_H
 
+#include <string>
+
 #include "instr.h"
 
 class Table {
@@ -10,6 +12,10 @@ class Table {
 
 public:
 
+  int start;
+  int end;
+  std::string blank;
+  
   Table();
   ~Table();
 

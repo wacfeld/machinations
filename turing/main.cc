@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <stdlib.h>
+#include <ctype.h>
 
 #include "tape.h"
 #include "instr.h"
@@ -40,78 +42,125 @@ int run(int state, Tape &tape, Table &table, int end) {
   return state;
 }
 
+void complain(int lnum) {
+  std::cerr << "line " << lnum << " badly formatted\n";
+  std::cerr << "format: INT STR STR BOOL INT\n";
+}
+
+Instr line2instr(std::string line, int lnum) {
+  Instr in;
+  std::istringstream iss{line};
+    
+  // src, scan, print
+  if(!(iss >> in.src >> in.scan >> in.print)) {
+    complain(lnum);
+    exit(1);
+  }
+
+  // dir
+  std::string LR; // "L" or "R"
+  if(!(iss >> LR)) {
+    complain(lnum);
+    exit(1);
+  }
+  if((LR != "L") && (LR != "R")) {
+    complain(lnum);
+    exit(1);
+  }
+  in.right = (LR == "R");
+
+  // dest
+  if(!(iss >> in.dest)) {
+    complain(lnum);
+    exit(1);
+  }
+
+  // test for trailing characters
+  std::string temp;
+  if(iss >> temp) {
+    complain(lnum);
+    exit(1);
+  }
+
+  return in;
+}
+
+// return false if comment (first non-whitespace is #) or blank
+bool isvalid(std::string line) {
+  for(long unsigned i = 0; i < line.length(); i++)
+  {
+    if(line[i] == '#')
+      return false;
+    
+    else if(!isspace(line[i])) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// read start state, end state, blank symbol into table
+void read_header(std::string line, int lnum, Table &t) {
+  std::istringstream iss{line};
+  if(!(iss >> t.start >> t.end >> t.blank)) {
+    std::cerr << "header (line " << lnum << "): INT INT STR\n";
+    exit(1);
+  }
+}
+
+void read(int argc, char **argv, Table &t) {
+  // check arg count
+  if(argc < 2) {
+    std::cerr << "usage: " << argv[0] << " INSTRUCTIONS\n";
+    exit(1);
+  }
+
+  // read from file
+  std::ifstream ifs{argv[1]};
+  int lnum = 0;
+  std::string line;
+
+  bool firstline = true;
+  
+  while(getline(ifs, line)) {
+    lnum++;
+    
+    // ignore if comment or all whitespace
+    if(!isvalid(line))
+      continue;
+
+    // first valid line must be header
+    if(firstline) {
+      firstline = false;
+      read_header(line, lnum, t);
+      continue;
+    }
+
+    Instr in = line2instr(line, lnum); // get instruction from line
+
+    // try to add to table
+    int success = t.add(in.src, in.scan, in.print, in.right, in.dest);
+    if(!success) {
+      std::cerr << "skipping line " << lnum << " (collision)\n";
+    }
+  }
+}
+
 int main(int argc, char **argv)
 {
-  if(argc != 2) {
-    std::cerr << "usage: " << argv[0] << " INSTRUCTIONS\n";
-    return 1;
-  }
 
-  std::ifstream ifs{argv[1]};
-
-  std::string line;
-  while(getline(ifs, line)) {
-    std::istringstream iss{line};
-    
-    
-  }
-  
   Table table;
+  read(argc, argv, table);
 
-  const std::string B = " ";
-  const int H = 100;
-  const int start = 1;
-
-  table.add(1, "0", "0", R, 1   );
-  table.add(1, "Y", "Y", R, 1   );
-  table.add(1, "1", "Y", L, 2   );
-  table.add(1, " ", " ", L, 4   );
-
-  table.add(2, "0", "0", L, 2   );
-  table.add(2, "Y", "Y", L, 2   );
-  table.add(2, "F", "F", L, 2   );
-  table.add(2, " ", "F", R, 3   );
-
-  table.add(3, "F", "F", R, 3   );
-  table.add(3, "0", "0", R, 1   );
-  table.add(3, "Y", "Y", R, 1   );
-
-  table.add(4, "0", "0", L, 4   );
-  table.add(4, "Y", "1", L, 4   );
-  table.add(4, " ", " ", R, H   );
-  table.add(4, "F", "F", L, 5   );
-
-  table.add(5, "F", "F", L, 5   );
-  table.add(5, " ", " ", R, 6   );
-
-  table.add(6, "F", " ", R, 7   );
-
-  table.add(7, "X", "0", R, 7   );
-  table.add(7, "Y", "1", R, 7   );
-  table.add(7, "1", "0", L, 9   );
-  table.add(7, "0", "1", L, 9   );
-  table.add(7, "F", "F", R, 10  );
-
-  // no state 8
-
-  table.add(9, "0", "0", L, 9   );
-  table.add(9, "1", "1", L, 9   );
-  table.add(9, " ", " ", R, 1   );
-
-  table.add(10, "Y", "Y", R, 10 );
-  table.add(10, "X", "X", R, 10 );
-  table.add(10, "F", "F", R, 10 );
-  table.add(10, "1", "Y", L, 11 );
-  table.add(10, "0", "X", L, 11 );
-
-  table.add(11, "X", "X", L, 11 );
-  table.add(11, "Y", "Y", L, 11 );
-  table.add(11, "F", "F", L, 5  );
+  std::cerr << "starting state " << table.start << std::endl;
+  std::cerr << "ending state " << table.end << std::endl;
+  std::cerr << "blank " << table.blank << std::endl;
     
-  Tape tape {B, "10110100"};
+  Tape tape {table.blank, "10110100"};
 
-  int state = start;
+  int state = table.start;
   std::cout << state << " --- " << tape;
-  state = run(state, tape, table, H);
+  state = run(state, tape, table, table.end);
   std::cout << state << " --- " << tape;
 }
