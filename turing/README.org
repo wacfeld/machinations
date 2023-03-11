@@ -5,6 +5,8 @@
 
 *** example
 
+see ~instructions.txt~ for instruction syntax
+
 #+BEGIN_SRC
 $ ./turing.out instructions.txt 1 0 0 1 0 1 1 0
 1 : [1] 0  0  1  0  1  1  0
