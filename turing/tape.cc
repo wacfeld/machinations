@@ -1,7 +1,7 @@
 #include "tape.h"
 
 Tape::Tape(int b): blank{b}, pos{0}, size{1} {
-  data = new int[1];
+  data = new int[size];
   data[0] = blank;
 }
 

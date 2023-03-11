@@ -8,7 +8,7 @@ public:
   bool right;
   int dest;
   
-  Instr(int src, int scan, int print, bool right, int dest): src{src}, scan{scan}, print{print}, right{right}, dest{dest} {}
+  // Instr(int src, int scan, int print, bool right, int dest): src{src}, scan{scan}, print{print}, right{right}, dest{dest} {}
   
 };
 
