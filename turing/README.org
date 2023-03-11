@@ -1,1 +1,93 @@
-turing machine simulator
+* turing machine simulator
+
+** usage
+`./turing.out INSTRUCTIONS [SYMBOL...]`
+
+*** example
+
+#+BEGIN_SRC 
+
+$ cat instructions.txt
+# comment lines start with #
+# blank lines are ignored
+
+# first unignored line must be START_STATE END_STATE BLANK_SYMBOL
+# symbols can be any string without whitespace
+# states can be any integer
+1 100 B
+
+# instructions are FROM_STATE SCANNED_SYMBOL PRINT_SYMBOL DIRECTION TO_STATE
+1 0 0 R 1
+1 Y Y R 1
+1 1 Y L 2
+1 B B L 4
+
+2 0 0 L 2
+2 Y Y L 2
+2 F F L 2
+2 B F R 3
+
+3 F F R 3
+3 0 0 R 1
+3 Y Y R 1
+
+4 0 0 L 4
+4 Y 1 L 4
+4 B B R 100
+4 F F L 5
+
+5 F F L 5
+5 B B R 6
+
+6 F B R 7
+
+7 X 0 R 7
+7 Y 1 R 7
+7 1 0 L 9
+7 0 1 L 9
+7 F F R 10  
+
+# (no state 8)
+
+9 0 0 L 9
+9 1 1 L 9
+9 B B R 1
+
+10 Y Y R 10
+10 X X R 10
+10 F F R 10
+10 1 Y L 11
+10 0 X L 11
+
+11 X X L 11 
+11 Y Y L 11 
+11 F F L 5
+
+$ ./turing.out instructions.txt 1 0 0 1 0 1 1 0
+starting state 1
+ending state 100
+blank B
+1 --- [1] 0  0  1  0  1  1  0 
+9 ---                         [1] 0  0  0  0  1  1  0                                                 
+9 ---                         [1] 0  1  0  0  1  1  0                                                 
+9 ---                         [1] 0  1  1  0  1  1  0                                                 
+9 ---                         [1] 0  1  1  1  1  1  0                                                 
+9 ---                         [1] 0  1  1  1  0  1  0                                                 
+9 ---                         [1] 0  1  1  0  0  1  0                                                 
+9 ---                         [1] 0  1  0  0  0  1  0                                                 
+9 ---                         [1] 0  0  0  0  0  1  0                                                 
+9 ---                         [1] 1  0  0  0  0  1  0                                                 
+9 ---                         [1] 1  1  0  0  0  1  0                                                 
+9 ---                         [1] 1  1  1  0  0  1  0                                                 
+9 ---                         [1] 1  1  1  1  0  1  0                                                 
+9 ---                         [1] 1  1  1  1  1  1  0                                                 
+9 ---                         [1] 1  1  1  1  1  0  0                                                 
+9 ---                         [1] 1  1  1  1  0  0  0                                                 
+9 ---                         [1] 1  1  1  0  0  0  0                                                 
+9 ---                         [1] 1  1  0  0  0  0  0                                                 
+9 ---                         [1] 1  0  0  0  0  0  0                                                 
+9 ---                         [1] 0  0  0  0  0  0  0                                                 
+9 ---                         [0] 0  0  0  0  0  0  0                                                 
+100 ---                         [0] 0  0  0  0  0  0  0
+#+END_SRC
+
