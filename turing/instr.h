@@ -10,8 +10,10 @@ public:
   std::string scan, print;
   bool right;
   int dest;
+  bool status;
   
-  // Instr(int src, int scan, int print, bool right, int dest): src{src}, scan{scan}, print{print}, right{right}, dest{dest} {}
+  Instr(int src, std::string scan, std::string print, bool right, int dest): src{src}, scan{scan}, print{print}, right{right}, dest{dest}, status{false} {}
+  Instr(): status{false} {}
   
   friend std::ostream &operator<<(std::ostream &out, Instr &in);
 };

@@ -70,8 +70,15 @@ void Tape::set(std::string s) {
 }
 
 std::ostream &operator<<(std::ostream &out, Tape &t) {
+  bool start = true;
   for(int i = 0; i < t.size; i++)
   {
+    // skip leading blanks
+    if(t.data[i] == t.blank && start)
+      continue;
+    else
+      start = false;
+    
     std::string symb = (t.data[i] == t.blank) ? " " : t.data[i];
     
     if(i == t.pos) {

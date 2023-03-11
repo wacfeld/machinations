@@ -5,19 +5,22 @@
 
 Table::Table(): num{0}, size{1} {
   instrs = new Instr[size];
+
+  start = end = -100;
+  blank = "";
 }
 
 Table::~Table() {
   delete[] instrs;
 }
 
-bool Table::add(int src, std::string scan, std::string print, bool right, int dest) {
+bool Table::add(Instr &in) {
   // check for collisions
   for(int i = 0; i < num; i++)
   {
     // matching starting state and symbol -> collision
-    if(instrs[i].src == src
-        && instrs[i].scan == scan) {
+    if(instrs[i].src == in.src
+        && instrs[i].scan == in.scan) {
       return false;
     }
   }
@@ -36,7 +39,7 @@ bool Table::add(int src, std::string scan, std::string print, bool right, int de
     instrs = _instrs;
   }
 
-  instrs[num] = {src, scan, print, right, dest};
+  instrs[num] = in;
   num++;
   return true;
 }

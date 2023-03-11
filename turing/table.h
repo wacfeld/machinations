@@ -2,6 +2,7 @@
 #define TABLE_H
 
 #include <string>
+#include <vector>
 
 #include "instr.h"
 
@@ -12,6 +13,7 @@ class Table {
 
 public:
 
+  std::vector<int> status; // when a status state is reached, print tape
   int start;
   int end;
   std::string blank;
@@ -19,7 +21,7 @@ public:
   Table();
   ~Table();
 
-  bool add(int src, std::string scan, std::string print, bool right, int dest); // returns false on failure to add (collision)
+  bool add(Instr &in); // returns false on failure to add (collision)
   Instr *lookup(int state, std::string symbol); // returns matching instruction or nullptr if not found
 
   friend std::ostream &operator<<(std::ostream &out, Table &t);
