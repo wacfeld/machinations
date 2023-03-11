@@ -5,6 +5,17 @@ Tape::Tape(int b): blank{b}, pos{0}, size{1} {
   data[0] = blank;
 }
 
+// recommended to make b a printable character so that init can contain it
+Tape::Tape(int b, std::string init): blank{b}, pos{0} {
+  size = init.length();
+  data = new int[size];
+
+  for(int i = 0; i < size; i++)
+  {
+    data[i] = init[i];
+  }
+}
+
 Tape::~Tape() {
   delete[] data;
 }
@@ -62,9 +73,9 @@ std::ostream &operator<<(std::ostream &out, Tape &t) {
   for(int i = 0; i < t.size; i++)
   {
     if(i == t.pos) {
-      std::cout << '[' << t.data[i] << ']';
+      std::cout << '[' << (char) t.data[i] << ']';
     } else {
-      std::cout << ' ' << t.data[i] << ' ';
+      std::cout << ' ' << (char) t.data[i] << ' ';
     }
   }
 

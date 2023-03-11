@@ -2,6 +2,7 @@
 #define TAPE_H
 
 #include <iostream>
+#include <string>
 
 class Tape {
   
@@ -12,7 +13,8 @@ class Tape {
   
 public:
 
-  Tape(int b);
+  Tape(int b); // construct with blank
+  Tape(int b, std::string init); // construct with blank and initial values
   ~Tape();
   
   // movement
