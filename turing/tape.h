@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 class Tape {
   
@@ -14,7 +15,7 @@ class Tape {
 public:
 
   Tape(std::string b); // construct with blank
-  Tape(std::string b, std::string init); // construct with blank and initial values
+  Tape(std::string b, std::vector<std::string> init); // construct with blank and initial values
   ~Tape();
   
   // movement

@@ -6,8 +6,8 @@ Tape::Tape(std::string b): blank{b}, pos{0}, size{1} {
 }
 
 // recommended to make b a printable character so that init can contain it
-Tape::Tape(std::string b, std::string init): blank{b}, pos{0} {
-  size = init.length();
+Tape::Tape(std::string b, std::vector<std::string> init): blank{b}, pos{0} {
+  size = init.size();
   data = new std::string[size];
 
   for(int i = 0; i < size; i++)
