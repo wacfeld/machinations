@@ -27,32 +27,33 @@ bool is_status(int state, Table &table) {
 // returns ending state (in case it ends prematurely)
 int run(int state, Tape &tape, Table &table, int end) {
   do {
-    
+
     if(is_status(state, table)) {
       std::cout << state << " : " << tape;
     }
     Instr *in = table.lookup(state, tape.get());
-    
+
     if(in) { // follow instruction
       tape.set(in->print);
-      
+
       if(in->right)
         tape.right();
       else
         tape.left();
 
-      state = in->dest;
-
       // if status transition, print after transition occurs
       if(in->status) {
-        std::cout << state << " : " << tape;
+        std::cout << state << " -> " << in->dest << " : " << tape;
       }
+
+      state = in->dest;
+
     }
 
     else { // table is at a loss
       return state;
     }
-    
+
   } while(state != end);
 
   return state;
@@ -67,7 +68,7 @@ void complain(std::string line, int lnum) {
 Instr line2instr(std::string line, int lnum) {
   Instr in;
   std::istringstream iss{line};
-    
+
   // src, scan, print
   if(!(iss >> in.src >> in.scan >> in.print)) {
     complain(line, lnum);
@@ -96,11 +97,11 @@ Instr line2instr(std::string line, int lnum) {
   std::string temp;
   iss >> temp;
   if(temp != "") {
-    
+
     if(temp == "S") { // status transition
       in.status = true;
     }
-    
+
     else {
       complain(line, lnum);
       exit(1);
@@ -116,7 +117,7 @@ bool isvalid(std::string line) {
   {
     if(line[i] == '#')
       return false;
-    
+
     else if(!isspace(line[i])) {
       return true;
     }
@@ -129,7 +130,7 @@ void complain_header(std::string line, int lnum) {
   std::cerr << line << std::endl;
   std::cerr << "header (line " << lnum << "): START_STATE END_STATE BLANK_SYMBOL [STATUS_STATE...]\n";
 }
-  
+
 // read start state, end state, blank symbol into table
 void read_header(std::string line, int lnum, Table &t) {
   std::istringstream iss{line};
@@ -139,13 +140,13 @@ void read_header(std::string line, int lnum, Table &t) {
     complain_header(line, lnum);
     exit(1);
   }
-  
+
   // read optional status states
   int n;
   while(iss >> n) {
     t.status.push_back(n);
   }
-  
+
   // test for trailing characters
   if(!iss.eof()) {
     complain_header(line, lnum);
@@ -166,10 +167,10 @@ void read(int argc, char **argv, Table &t) {
   std::string line;
 
   bool firstline = true;
-  
+
   while(getline(ifs, line)) {
     lnum++;
-    
+
     // ignore if comment or all whitespace
     if(!isvalid(line))
       continue;
@@ -198,9 +199,9 @@ int main(int argc, char **argv)
 
   // read instructions from argv[1]
   read(argc, argv, table);
-  std::cerr << "starting state " << table.start << std::endl;
-  std::cerr << "ending state " << table.end << std::endl;
-  std::cerr << "blank " << table.blank << std::endl;
+  // std::cerr << "starting state " << table.start << std::endl;
+  // std::cerr << "ending state " << table.end << std::endl;
+  // std::cerr << "blank " << table.blank << std::endl;
 
   std::vector<std::string> init;
   // any remaining args are put onto the tape
@@ -212,10 +213,16 @@ int main(int argc, char **argv)
   } else {
     init.push_back(table.blank);
   }
-    
+
   Tape tape {table.blank, init};
 
   int state = table.start;
+
+  std::cout << state << " : " << tape;
+  std::cout << "BEGIN\n";
+
   state = run(state, tape, table, table.end);
-  std::cout << state << " --- " << tape;
+
+  std::cout << "HALT\n";
+  std::cout << state << " : " << tape;
 }

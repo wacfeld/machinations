@@ -1,6 +1,15 @@
-# header
+# comment lines start with #
+# blank lines are ignored
+
+# first unignored line must be START_STATE END_STATE BLANK_SYMBOL [STATUS_STATE...]
+# symbols can be any string without whitespace
+# states can be any integer
+# status states print the tape when reached
 1 100 B
 
+# instructions are FROM_STATE SCANNED_SYMBOL PRINT_SYMBOL DIRECTION TO_STATE [S]
+# S indicates status transition
+# status transitions print the tape after occurring
 1 0 0 R 1
 1 Y Y R 1
 1 1 Y L 2
@@ -35,6 +44,7 @@
 
 9 0 0 L 9
 9 1 1 L 9
+# below is a status transition
 9 B B R 1 S
 
 10 Y Y R 10

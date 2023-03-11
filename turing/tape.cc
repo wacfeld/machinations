@@ -22,11 +22,11 @@ Tape::~Tape() {
 
 void Tape::right() {
   pos++;
-  
+
   if(size == pos) { // out of bounds
     // expand
     std::string *d = new std::string[size*2];
-    
+
     // copy over & write blanks
     for(int i = 0; i < size; i++) {
       d[i] = data[i];
@@ -47,7 +47,7 @@ void Tape::left() {
     // expand & shift
     std::string *d = new std::string[size*2];
     pos += size;
-    
+
     // copy over & write blanks
     for(int i = 0; i < size; i++) {
       d[i+size] = data[i];
@@ -78,9 +78,9 @@ std::ostream &operator<<(std::ostream &out, Tape &t) {
       continue;
     else
       start = false;
-    
+
     std::string symb = (t.data[i] == t.blank) ? " " : t.data[i];
-    
+
     if(i == t.pos) {
       std::cout << '[' << symb << ']';
     } else {

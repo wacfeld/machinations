@@ -17,7 +17,7 @@ public:
   int start;
   int end;
   std::string blank;
-  
+
   Table();
   ~Table();
 
@@ -25,7 +25,7 @@ public:
   Instr *lookup(int state, std::string symbol); // returns matching instruction or nullptr if not found
 
   friend std::ostream &operator<<(std::ostream &out, Table &t);
-  
+
 };
 
 std::ostream &operator<<(std::ostream &out, Table &t);

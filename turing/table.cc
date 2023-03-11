@@ -24,12 +24,12 @@ bool Table::add(Instr &in) {
       return false;
     }
   }
-  
+
   // resize if necessary
   if(num == size) {
     size *= 2;
     Instr *_instrs = new Instr[size];
-    
+
     for(int i = 0; i < num; i++)
     {
       _instrs[i] = instrs[i];
