@@ -3,7 +3,7 @@
 *.a
 gmon/
 *.d
-*.sw*
+.*.sw?
 *.out
 tags
 \#*\#

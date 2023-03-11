@@ -2,12 +2,12 @@ CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -fcompare-debug-second
 EXEC = $(shell basename $(CURDIR))
 LIBS = 
-OBJECTS = main.o
+OBJECTS = main.o tape.o
 DEPENDS = ${OBJECTS:.o=.d}
 ${EXEC}: ${OBJECTS}
-	${CXX} ${OBJECTS} ${CXXFLAGS} -o ${EXEC} ${LIBS}
+	${CXX} ${OBJECTS} ${CXXFLAGS} -o ${EXEC}.out ${LIBS}
 -include ${DEPENDS}
 .PHONY: clean
 clean:
-	rm ${OBJECTS} ${DEPENDS} ${EXEC}
+	rm ${OBJECTS} ${DEPENDS} ${EXEC}.out
 
