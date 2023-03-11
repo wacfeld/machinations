@@ -1,7 +1,7 @@
 * turing machine simulator
 
 ** usage
-`./turing.out INSTRUCTIONS [SYMBOL...]`
+~./turing.out INSTRUCTIONS [SYMBOL...]~
 
 *** example
 
