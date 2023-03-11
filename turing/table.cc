@@ -11,7 +11,7 @@ Table::~Table() {
   delete[] instrs;
 }
 
-bool Table::add(int src, int scan, int print, bool right, int dest) {
+bool Table::add(int src, std::string scan, std::string print, bool right, int dest) {
   // check for collisions
   for(int i = 0; i < num; i++)
   {
@@ -41,7 +41,7 @@ bool Table::add(int src, int scan, int print, bool right, int dest) {
   return true;
 }
 
-Instr *Table::lookup(int state, int symbol) {
+Instr *Table::lookup(int state, std::string symbol) {
   for(int i = 0; i < num; i++)
   {
     if(instrs[i].src == state

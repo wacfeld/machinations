@@ -6,7 +6,8 @@
 class Instr {
 public:
   
-  int src, scan, print;
+  int src;
+  std::string scan, print;
   bool right;
   int dest;
   

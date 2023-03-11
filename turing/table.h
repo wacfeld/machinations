@@ -13,8 +13,8 @@ public:
   Table();
   ~Table();
 
-  bool add(int src, int scan, int print, bool right, int dest); // returns false on failure to add (collision)
-  Instr *lookup(int state, int symbol); // returns matching instruction or nullptr if not found
+  bool add(int src, std::string scan, std::string print, bool right, int dest); // returns false on failure to add (collision)
+  Instr *lookup(int state, std::string symbol); // returns matching instruction or nullptr if not found
 
   friend std::ostream &operator<<(std::ostream &out, Table &t);
   

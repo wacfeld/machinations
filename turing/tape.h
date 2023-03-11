@@ -6,15 +6,15 @@
 
 class Tape {
   
-  const int blank; // what symbol is blank (what tape is initialized to)
+  const std::string blank; // what symbol is blank (what tape is initialized to)
   int pos; // position along tape
   int size; // size of tape
-  int *data; // tape
+  std::string *data; // tape
   
 public:
 
-  Tape(int b); // construct with blank
-  Tape(int b, std::string init); // construct with blank and initial values
+  Tape(std::string b); // construct with blank
+  Tape(std::string b, std::string init); // construct with blank and initial values
   ~Tape();
   
   // movement
@@ -22,8 +22,8 @@ public:
   void left();
   
   // read/write
-  int get();
-  void set(int s);
+  std::string get();
+  void set(std::string s);
   
   friend std::ostream &operator<<(std::ostream &out, Tape &t);
 };
