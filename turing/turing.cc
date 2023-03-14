@@ -144,7 +144,7 @@ void read_header(std::string line, int lnum, Table &t) {
 void read(int argc, char **argv, Table &t) {
   // check arg count
   if(argc < 2) {
-    std::cerr << "usage: " << argv[0] << " INSTRUCTIONS\n";
+    std::cerr << "usage: " << argv[0] << " INSTRUCTIONS [SYMBOL...]\n";
     exit(1);
   }
 
