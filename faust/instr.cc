@@ -51,13 +51,13 @@ void read_inst(std::string &line, Instr &inst) {
   iss >> temp;
   if(temp != "") {
 
-    if(temp == "P") { // print transition
-      inst.print = true;
-    }
+    // if(temp == "P") { // print transition
+    //   inst.print = true;
+    // }
 
-    else {
+    // else {
       complain(line);
       exit(1);
-    }
+    // }
   }
 }

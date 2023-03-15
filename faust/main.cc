@@ -38,6 +38,61 @@ void read(int argc, char **argv, std::vector<Instr> &instrs) {
   }
 }
 
+// // true if exists direct epsilon move s1 -> s2
+// std::set<int> eps(int s, std::vector<Instr> &instrs) {
+//   std::set<int> dests;
+  
+//   for(Instr in : instrs) {
+//     if(in.scan == "" && in.src == s) {
+//       dests.insert(in.dest);
+//     }
+//   }
+
+//   return dests;
+// }
+
+std::set<int> eps_closure(std::set<int> states, std::vector<Instr> &instrs) {
+  
+  do {
+    
+    // populate new_states
+    std::set<int> new_states;
+    for(int s : states) {
+      for(Instr in : instrs) {
+        if(in.scan == "" && in.src == s) {
+          if(!states.contains(in.dest)) {
+            new_states.insert(in.dest);
+          }
+        }
+      }
+    }
+
+    // union new_states with states
+    for(int s : new_states) {
+      states.insert(s);
+    }
+    
+  } while(!new_states.empty());
+
+  return states;
+}
+
+std::set<int> transition(std::set<int> states, int symbol, std::vector<Instr> &instrs) {
+  
+  std::set<int> dests;
+  
+  // follow all state transitions for given symbol
+  for(Instr in : instrs) {
+    if(states.contains(state) && in.scan == symbol) {
+      for(int d : in.dests) {
+        dests.insert(d);
+      }
+    }
+  }
+
+  
+}
+
 int main(int argc, char **argv)
 {
   std::vector<Instr> instrs;

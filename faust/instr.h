@@ -10,7 +10,7 @@ public:
   int src;
   std::string scan; // "" means epsilon
   std::vector<int> dests;
-  bool print; // print after occuring if true
+  // bool print; // print after occuring if true
 
   friend std::ostream &operator<<(std::ostream &out, Instr &in);
   friend void read_inst(std::string &line, Instr &inst);
