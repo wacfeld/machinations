@@ -12,10 +12,6 @@ std::ostream &operator<<(std::ostream &out, Instr &in) {
   //   out << " (epsilon)";
   // }
 
-  if(in.print) {
-    out << " (print)";
-  }
-  
   out << std::endl;
   return out;
 }
