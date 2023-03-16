@@ -7,6 +7,10 @@
 #include "instr.h"
 #include "table.h"
 
+void usage(std::string exec) {
+  std::cerr << "usage: " << exec << " INSTRUCTIONS SYMBOL...\n";
+}
+
 // return false if comment (first non-whitespace is #) or blank
 bool isvalid(std::string line) {
   for(long unsigned i = 0; i < line.length(); i++)
@@ -24,7 +28,7 @@ bool isvalid(std::string line) {
 
 void read(int argc, char **argv, Table &tab) {
   if(argc < 2) {
-    std::cerr << "usage: " << argv[0] << " INSTRUCTIONS [SYMBOL...]\n";
+    usage(argv[0]);
     exit(1);
   }
 
@@ -54,6 +58,7 @@ void read(int argc, char **argv, Table &tab) {
       if(!iss.eof()) {
         std::cerr << "bad header\n";
       }
+      continue;
     }
     
     Instr in;
@@ -123,12 +128,43 @@ std::set<int> transition(std::set<int> states, std::string symbol, Table &tab) {
 
 int main(int argc, char **argv)
 {
+  // read instructions
   Table tab;
   read(argc, argv, tab);
 
-  std::cout << "start " << tab.start << " end ";
-  for(int f : tab.final) {
-    std::cout << f << " ";
+std::cout << "start " << tab.start << " end ";
+for(int f : tab.final) {
+  std::cout << f << " ";
+}
+std::cout << std::endl;
+
+for(Instr in : tab.instrs) {
+  std::cout << in;
+}
+
+  // perform epsilon closure on initial state
+  std::set<int> states {tab.start};
+  states = eps_closure(states, tab);
+
+std::cout << "starting states ";
+for(int s : states) {
+  std::cout << s << " ";
+}
+std::cout << std::endl;
+
+  if(argc < 3) {
+    usage(argv[0]);
   }
-  std::cout << std::endl;
+
+  // run FA on tape
+  for(int i = 2; i < argc; i++) {
+    std::string symb = argv[i];
+    states = transition(states, symb, tab);
+  }
+  
+std::cout << "ending states ";
+for(int s : states) {
+  std::cout << s << " ";
+}
+std::cout << std::endl;
 }
