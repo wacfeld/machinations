@@ -132,25 +132,31 @@ int main(int argc, char **argv)
   Table tab;
   read(argc, argv, tab);
 
-std::cout << "start " << tab.start << " end ";
-for(int f : tab.final) {
-  std::cout << f << " ";
-}
-std::cout << std::endl;
+  bool verbose = true;
 
-for(Instr in : tab.instrs) {
-  std::cout << in;
-}
+  if(verbose) {
+    std::cout << "start " << tab.start << " end ";
+    for(int f : tab.final) {
+      std::cout << f << " ";
+    }
+    std::cout << std::endl;
+
+    for(Instr in : tab.instrs) {
+      std::cout << in;
+    }
+  }
 
   // perform epsilon closure on initial state
   std::set<int> states {tab.start};
   states = eps_closure(states, tab);
 
-std::cout << "starting states ";
-for(int s : states) {
-  std::cout << s << " ";
-}
-std::cout << std::endl;
+  if(verbose) {
+    std::cout << "starting states ";
+    for(int s : states) {
+      std::cout << s << " ";
+    }
+    std::cout << std::endl;
+  }
 
   if(argc < 3) {
     usage(argv[0]);
@@ -160,11 +166,30 @@ std::cout << std::endl;
   for(int i = 2; i < argc; i++) {
     std::string symb = argv[i];
     states = transition(states, symb, tab);
+    for(int s : states) {
+      std::cout << s << " ";
+      std::cout << std::endl;
+    }
   }
   
-std::cout << "ending states ";
-for(int s : states) {
-  std::cout << s << " ";
-}
-std::cout << std::endl;
+  if(verbose) {
+    std::cout << "ending states ";
+    for(int s : states) {
+      std::cout << s << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  bool accept = false;
+  for(int f : tab.final) {
+    if(states.count(f)) {
+      accept = true;
+    }
+  }
+
+  if(accept) {
+    std::cout << "accepted\n";
+  } else {
+    std::cout << "rejected\n";
+  }
 }
