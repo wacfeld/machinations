@@ -32,9 +32,9 @@ void read_inst(std::string &line, Instr &inst) {
     exit(1);
   }
 
-  // if(inst.scan == "EPS") {
-  //   inst.scan = "";
-  // }
+  if(inst.scan == "EPS") {
+    inst.scan = "";
+  }
   
   int d;
   while(iss >> d) {
