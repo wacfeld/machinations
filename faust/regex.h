@@ -3,13 +3,16 @@
 
 #include <vector>
 
+#include "table.h"
+#include "instr.h"
+
 enum rtype {CAT, ALT, LIT, STAR};
 
 class Regex {
 public:
-  rtype typ;
-  std::vector<Regex *> data;
-  char lit;
+  rtype type;
+  std::vector<Regex *> children;
+  std::string lit;
 };
 
 #endif

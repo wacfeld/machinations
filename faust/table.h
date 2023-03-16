@@ -11,7 +11,16 @@ public:
   int start; // starting state
   std::vector<int> final; // final states
   
-  Instr *lookup(int state, std::string symbol);
+  // Instr *lookup(int state, std::string symbol);
+  void add(Instr in) {
+    instrs.push_back(in);
+  }
+
+  void add(Table *t) {
+    for(Instr in : t->instrs) {
+      instrs.push_back(in);
+    }
+  }
 };
 
 #endif
