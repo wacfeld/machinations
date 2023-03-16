@@ -2,10 +2,11 @@
 
 #include "regex.h"
 
+// invariant: final has exactly 1 element which is the max state number
 Table *r2fa(Regex &reg, int minstate) {
   Table *tab = new Table;
   tab->start = minstate;
-  tab->final = {minstate};
+  tab->final = {minstate}; // by default this makes the table accept the empty string
   minstate++;
   
   if(reg.type == CAT) {
@@ -21,13 +22,30 @@ Table *r2fa(Regex &reg, int minstate) {
       tab->add({t->final[0], "", {minstate}});
       
       minstate++;
+      delete t;
     }
 
     return tab;
   }
 
   else if(reg.type == ALT) {
-    
+    std::vector<int> tails;
+    for(Regex *r : reg.children) {
+      Table *t = r2fa(*r, minstate);
+      tab->add({tab->start, "", {t->start}});
+      tab->add(t);
+      tails.push_back(t->final[0]);
+      minstate = t->final[0] + 1;
+      delete t;
+    }
+
+    tab->final = {minstate};
+    minstate++;
+    for(int tl : tails) {
+      tab->add({tl, "", {tab->final}});
+    }
+
+    return tab;
   }
 
   else if(reg.type == LIT) {
