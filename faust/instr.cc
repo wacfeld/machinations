@@ -3,7 +3,14 @@
 #include <sstream>
 
 std::ostream &operator<<(std::ostream &out, Instr &in) {
-  out << in.src << " " << in.scan << " :";
+  out << in.src << " ";
+  
+  if(in.scan == "") {
+    out << "EPS";
+  } else {
+    out << in.scan;
+  }
+  
   for(int d : in.dests) {
     out << " " << d;
   }
