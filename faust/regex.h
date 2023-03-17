@@ -14,11 +14,11 @@ public:
   std::vector<Regex *> children;
   std::string lit;
 
-  ~Regex() {
-    for(Regex *r : children) {
-      delete r;
-    }
-  }
+  // ~Regex() {
+  //   for(Regex *r : children) {
+  //     delete r;
+  //   }
+  // }
 
   friend Regex *star(Regex *r);
   friend Regex *alt(std::vector<Regex *> rs);
