@@ -1,1 +1,7 @@
-NFAs with epsilon moves
+regex via NFAs
+
+* usage
+- define regex at top of ~main()~ using ~star()~, ~alt()~, ~cat()~, ~lit()~
+- ~./faust.out abc~ runs the resulting FA on symbols a, b, c
+- graphviz graph of the FA printed to stdout
+

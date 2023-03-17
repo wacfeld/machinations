@@ -1,0 +1,19 @@
+# this is a comment
+# states are integers
+# symbols are strings without whitespace
+
+# below is a header (START_STATE FINAL_STATE...)
+0 0
+
+# below are instructions (SRC_STATE SYMBOL DEST_STATES...)
+0 a 1
+1 a 0
+2 a 3
+3 a 2
+0 b 2
+2 b 0
+1 b 3
+3 b 1
+
+# epsilon moves have special symbol EPS
+# 0 EPS 10 11 12
