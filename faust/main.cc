@@ -148,17 +148,24 @@ std::set<int> transition(std::set<int> states, std::string symbol, Table &tab) {
 }
 
 // returns true if accepted
-bool run(Table &tab, std::vector<std::string> tape) {
+bool run(Table &tab, std::vector<std::string> tape, bool verbose) {
   std::set<int> states{tab.start};
   states = eps_closure(states, tab);
   
+  if(verbose) {
+    std::cout << "starting states ";
+    std::cout << states;
+  }
+
   for(std::string s : tape) {
     states = transition(states, s, tab);
     // for(int s : states) {
     //   std::cout << s << " ";
     // }
     // std::cout << std::endl;
-    std::cout << states;
+    if(verbose) {
+      std::cout << states;
+    }
   }
 
   bool accept = false;
@@ -171,13 +178,13 @@ bool run(Table &tab, std::vector<std::string> tape) {
   return accept;
 }
 
-bool run(Table &tab, std::vector<char> tape) {
+bool run(Table &tab, std::vector<char> tape, bool verbose) {
   std::vector<std::string> newtape;
   for(char c : tape) {
     newtape.push_back(std::string(1,c));
   }
 
-  return run(tab, newtape);
+  return run(tab, newtape, verbose);
 }
 
 void readrunFA(int argc, char **argv, bool verbose) {
@@ -196,40 +203,16 @@ void readrunFA(int argc, char **argv, bool verbose) {
     }
   }
 
-  // perform epsilon closure on initial state
-  std::set<int> states {tab.start};
-  states = eps_closure(states, tab);
-
-  if(verbose) {
-    std::cout << "starting states ";
-    std::cout << states;
-  }
-
   if(argc < 3) {
     usage(argv[0]);
   }
 
-  // run FA on tape
+  std::vector<std::string> tape;
   for(int i = 2; i < argc; i++) {
-    std::string symb = argv[i];
-    states = transition(states, symb, tab);
-    
-    if(verbose) {
-      std::cout << states;
-    }
-  }
-  
-  if(verbose) {
-    std::cout << "ending states ";
-    std::cout << states;
+    tape.push_back(argv[i]);
   }
 
-  bool accept = false;
-  for(int f : tab.final) {
-    if(states.count(f)) {
-      accept = true;
-    }
-  }
+  bool accept = run(tab, tape, verbose);
 
   if(accept) {
     std::cout << "accepted\n";
@@ -259,7 +242,7 @@ int main(int argc, char **argv)
   }
   std::vector<char> tape(str.begin(), str.end());
   
-  bool accept = run(*tab, tape);
+  bool accept = run(*tab, tape, false);
   std::cout << (accept ? "accepted" : "rejected") << std::endl;
 
   delete tab;
