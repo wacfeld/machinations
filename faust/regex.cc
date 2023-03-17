@@ -57,8 +57,22 @@ Table *r2fa(Regex &reg, int minstate) {
     return tab;
   }
 
-  else if(reg.type == STAR) {
-    
+  else if(reg.type == STAR) { // kleene closure
+    if(reg.children.size() != 1) {
+      std::cerr << "r2fa(): star regex has multiple children\n";
+      exit(1);
+    }
+
+    Table *t = r2fa(reg.children[0], minstate);
+    tab->add({tab->start, "", {t->start}});
+    tab->add(t);
+    tab->add({t->final[0], "", {t->start}});
+    minstate  = t->final[0] + 1;
+    tab->add({t->start, "", {minstate}});
+    minstate++;
+    delete t;
+
+    return t;
   }
   
   else {
