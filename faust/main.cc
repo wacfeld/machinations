@@ -171,6 +171,8 @@ int main(int argc, char **argv)
   bool accept = run(*tab, str, false);
   std::cout << (accept ? "ACCEPT" : "REJECT") << std::endl;
 
+  tab2dot(std::cout, *tab);
+
   delete tab;
   delete r;
 }

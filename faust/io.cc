@@ -80,3 +80,57 @@ void read(int argc, char **argv, Table &tab) {
     tab.instrs.push_back(in);
   }
 }
+
+// escape double quotes and backslashes in string
+std::string escape(std::string in) {
+  std::string out;
+  for(char c : in) {
+    if(c == '\\' || c == '"') {
+      out += '\\';
+    }
+    out += c;
+  }
+
+  return out;
+}
+
+void tab2dot(std::ostream &out, Table &tab) {
+  // header & footer
+  static const std::string header = "digraph G {\ngraph [layout=dot rankdir=LR]\n";
+  static const std::string footer = "}\n";
+  
+  // unicode epsilon
+  static const std::string eps = "ε";
+
+  out << header;
+
+  // make nodes circle-shaped by default
+  out << "node [shape=circle]\n";
+  // make start state box-shaped
+  out << tab.start << " [shape=box]\n";
+  // make final states double circles
+  for(int s : tab.final) {
+    out << s << " [shape=doublecircle]\n";
+  }
+
+  // draw instructions
+  // e.x. 5 -> { 6 7 8 } []
+  for(Instr &in : tab.instrs) {
+    out << in.src << " -> { ";
+    for(int d : in.dests) {
+      out << d << ' ';
+    }
+    out << '}';
+
+    // label
+    out << "[label=\"";
+    if(in.scan == "") {
+      out << eps;
+    } else {
+      out << escape(in.scan);
+    }
+    out << "\"];\n";
+  }
+
+  out << footer;
+}

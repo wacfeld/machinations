@@ -17,4 +17,7 @@ void read(int argc, char **argv, Table &tab);
 
 std::ostream &operator<<(std::ostream &out, std::set<int> S);
 std::ostream &operator<<(std::ostream &out, std::vector<int> S);
+
+void tab2dot(std::ostream &out, Table &tab);
+
 #endif
