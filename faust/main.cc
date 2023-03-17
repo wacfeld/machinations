@@ -8,6 +8,26 @@
 #include "table.h"
 #include "regex.h"
 
+std::ostream &operator<<(std::ostream &out, std::set<int> S) {
+  std::string space = "";
+  for(int s : S) {
+    out << space << s;
+    space = " ";
+  }
+  out << std::endl;
+  return out;
+}
+
+std::ostream &operator<<(std::ostream &out, std::vector<int> S) {
+  std::string space = "";
+  for(int s : S) {
+    out << space << s;
+    space = " ";
+  }
+  out << std::endl;
+  return out;
+}
+
 void usage(std::string exec) {
   std::cerr << "usage: " << exec << " INSTRUCTIONS SYMBOL...\n";
 }
@@ -130,9 +150,15 @@ std::set<int> transition(std::set<int> states, std::string symbol, Table &tab) {
 // returns true if accepted
 bool run(Table &tab, std::vector<std::string> tape) {
   std::set<int> states{tab.start};
+  states = eps_closure(states, tab);
   
   for(std::string s : tape) {
     states = transition(states, s, tab);
+    // for(int s : states) {
+    //   std::cout << s << " ";
+    // }
+    // std::cout << std::endl;
+    std::cout << states;
   }
 
   bool accept = false;
@@ -163,10 +189,7 @@ void readrunFA(int argc, char **argv, bool verbose) {
 
   if(verbose) {
     std::cout << "start " << tab.start << " end ";
-    for(int f : tab.final) {
-      std::cout << f << " ";
-    }
-    std::cout << std::endl;
+    std::cout << tab.final;
 
     for(Instr &in : tab.instrs) {
       std::cout << in;
@@ -179,10 +202,7 @@ void readrunFA(int argc, char **argv, bool verbose) {
 
   if(verbose) {
     std::cout << "starting states ";
-    for(int s : states) {
-      std::cout << s << " ";
-    }
-    std::cout << std::endl;
+    std::cout << states;
   }
 
   if(argc < 3) {
@@ -195,19 +215,13 @@ void readrunFA(int argc, char **argv, bool verbose) {
     states = transition(states, symb, tab);
     
     if(verbose) {
-      for(int s : states) {
-        std::cout << s << " ";
-        std::cout << std::endl;
-      }
+      std::cout << states;
     }
   }
   
   if(verbose) {
     std::cout << "ending states ";
-    for(int s : states) {
-      std::cout << s << " ";
-    }
-    std::cout << std::endl;
+    std::cout << states;
   }
 
   bool accept = false;
@@ -226,19 +240,27 @@ void readrunFA(int argc, char **argv, bool verbose) {
 
 int main(int argc, char **argv)
 {
-  // readrunFA(argc, argv, false);
-
   Regex r1 {LIT, {}, "a"};
-  Regex r2 = {STAR, {&r1}, ""};
+  Regex r2 {LIT, {}, "b"};
+  Regex r3 {ALT, {&r1, &r2}, ""};
+  
   Table *tab = r2fa(r2, 0);
   std::cout << *tab;
 
-  if(argc != 2) {
+  std::string str;
+  if(argc == 1) {
+    str = "";
+  }
+  else if(argc == 2) {
+    str = argv[1];
+  }
+  else {
     std::cerr << "usage: " << argv[0] << " TAPE\n";
   }
-  std::string str = argv[1];
   std::vector<char> tape(str.begin(), str.end());
   
   bool accept = run(*tab, tape);
   std::cout << (accept ? "accepted" : "rejected") << std::endl;
+
+  delete tab;
 }
