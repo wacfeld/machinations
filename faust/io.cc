@@ -1,5 +1,26 @@
 #include "io.h"
 
+std::ostream &operator<<(std::ostream &out, std::set<int> S) {
+  std::string space = "";
+  for(int s : S) {
+    out << space << s;
+    space = " ";
+  }
+  out << std::endl;
+  return out;
+}
+
+std::ostream &operator<<(std::ostream &out, std::vector<int> S) {
+  std::string space = "";
+  for(int s : S) {
+    out << space << s;
+    space = " ";
+  }
+  out << std::endl;
+  return out;
+}
+
+
 void usage(std::string exec) {
   std::cerr << "usage: " << exec << " INSTRUCTIONS SYMBOL...\n";
 }

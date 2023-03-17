@@ -15,4 +15,6 @@ void usage(std::string exec);
 bool isvalid(std::string line);
 void read(int argc, char **argv, Table &tab);
 
+std::ostream &operator<<(std::ostream &out, std::set<int> S);
+std::ostream &operator<<(std::ostream &out, std::vector<int> S);
 #endif

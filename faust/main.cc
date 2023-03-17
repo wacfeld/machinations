@@ -9,26 +9,6 @@
 #include "regex.h"
 #include "io.h"
 
-std::ostream &operator<<(std::ostream &out, std::set<int> S) {
-  std::string space = "";
-  for(int s : S) {
-    out << space << s;
-    space = " ";
-  }
-  out << std::endl;
-  return out;
-}
-
-std::ostream &operator<<(std::ostream &out, std::vector<int> S) {
-  std::string space = "";
-  for(int s : S) {
-    out << space << s;
-    space = " ";
-  }
-  out << std::endl;
-  return out;
-}
-
 // // true if exists direct epsilon move s1 -> s2
 // std::set<int> eps(int s, std::vector<Instr> &instrs) {
 //   std::set<int> dests;
