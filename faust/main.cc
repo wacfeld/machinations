@@ -7,6 +7,7 @@
 #include "instr.h"
 #include "table.h"
 #include "regex.h"
+#include "io.h"
 
 std::ostream &operator<<(std::ostream &out, std::set<int> S) {
   std::string space = "";
@@ -26,66 +27,6 @@ std::ostream &operator<<(std::ostream &out, std::vector<int> S) {
   }
   out << std::endl;
   return out;
-}
-
-void usage(std::string exec) {
-  std::cerr << "usage: " << exec << " INSTRUCTIONS SYMBOL...\n";
-}
-
-// return false if comment (first non-whitespace is #) or blank
-bool isvalid(std::string line) {
-  for(long unsigned i = 0; i < line.length(); i++)
-  {
-    if(line[i] == '#')
-      return false;
-
-    else if(!isspace(line[i])) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-void read(int argc, char **argv, Table &tab) {
-  if(argc < 2) {
-    usage(argv[0]);
-    exit(1);
-  }
-
-  std::ifstream ifs{argv[1]};
-  std::string line;
-
-  bool firstline = true;
-  
-  while(getline(ifs, line)) {
-    if(!isvalid(line)) {
-      continue;
-    }
-
-    if(firstline) {
-      firstline = false;
-      
-      std::istringstream iss{line};
-      if(!(iss >> tab.start)) {
-        std::cerr << "bad header\n";
-      }
-
-      int d;
-      while(iss >> d) {
-        tab.final.push_back(d);
-      }
-
-      if(!iss.eof()) {
-        std::cerr << "bad header\n";
-      }
-      continue;
-    }
-    
-    Instr in;
-    read_inst(line, in);
-    tab.instrs.push_back(in);
-  }
 }
 
 // // true if exists direct epsilon move s1 -> s2
@@ -187,6 +128,15 @@ bool run(Table &tab, std::vector<char> tape, bool verbose) {
   return run(tab, newtape, verbose);
 }
 
+bool run(Table &tab, std::string tape, bool verbose) {
+  std::vector<std::string> newtape;
+  for(char c : tape) {
+    newtape.push_back(std::string(1,c));
+  }
+
+  return run(tab, newtape, verbose);
+}
+
 void readrunFA(int argc, char **argv, bool verbose) {
   // read instructions
   Table tab;
@@ -223,13 +173,10 @@ void readrunFA(int argc, char **argv, bool verbose) {
 
 int main(int argc, char **argv)
 {
-  Regex r1 {LIT, {}, "a"};
-  Regex r2 {LIT, {}, "b"};
-  Regex r3 {ALT, {&r1, &r2}, ""};
-  
-  Table *tab = r2fa(r2, 0);
+  Regex *r = cat("hello");
+  Table *tab = r2fa(*r, 0);
   std::cout << *tab;
-
+  
   std::string str;
   if(argc == 1) {
     str = "";
@@ -240,10 +187,10 @@ int main(int argc, char **argv)
   else {
     std::cerr << "usage: " << argv[0] << " TAPE\n";
   }
-  std::vector<char> tape(str.begin(), str.end());
   
-  bool accept = run(*tab, tape, false);
-  std::cout << (accept ? "accepted" : "rejected") << std::endl;
+  bool accept = run(*tab, str, false);
+  std::cout << (accept ? "ACCEPT" : "REJECT") << std::endl;
 
   delete tab;
+  delete r;
 }
