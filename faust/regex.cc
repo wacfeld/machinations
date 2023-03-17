@@ -69,10 +69,11 @@ Table *r2fa(Regex &reg, int minstate) {
     tab->add({t->final[0], "", {t->start}});
     minstate  = t->final[0] + 1;
     tab->add({t->start, "", {minstate}});
+    tab->final = {minstate};
     minstate++;
-    // delete t;
+    delete t;
 
-    return t;
+    return tab;
   }
   
   else {
