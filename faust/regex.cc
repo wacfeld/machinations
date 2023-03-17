@@ -81,3 +81,37 @@ Table *r2fa(Regex &reg, int minstate) {
     exit(1);
   }
 }
+
+Regex *star(Regex *r) {
+  return new Regex {STAR, {r}, ""};
+}
+
+Regex *alt(std::vector<Regex *> rv) {
+  return new Regex{ALT, rv, ""};
+}
+
+Regex *alt(std::string s) {
+  std::vector<Regex *> rv;
+  for(char c : s) {
+    rv.push_back(lit(c));
+  }
+
+  return alt(rv);
+}
+
+Regex *cat(std::vector<Regex *> rv) {
+  return new Regex{CAT, rv, ""};
+}
+
+Regex *cat(std::string s) {
+  std::vector<Regex *> rv;
+  for(char c : s) {
+    rv.push_back(lit(c));
+  }
+
+  return cat(rv);
+}
+
+Regex *lit(char c) {
+  return new Regex{LIT, {}, std::string(1,c)};
+}
