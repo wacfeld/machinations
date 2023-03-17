@@ -11,3 +11,19 @@
 
 //   return nullptr;
 // }
+
+std::ostream &operator<<(std::ostream &out, Table &tab) {
+  out << "start " << tab.start << std::endl;
+  
+  out << "final";
+  for(int f : tab.final) {
+    out << " " << f;
+  }
+  out << std::endl;
+
+  for(Instr &in : tab.instrs) {
+    out << in;
+  }
+
+  return out;
+}

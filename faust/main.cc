@@ -6,6 +6,7 @@
 
 #include "instr.h"
 #include "table.h"
+#include "regex.h"
 
 void usage(std::string exec) {
   std::cerr << "usage: " << exec << " INSTRUCTIONS SYMBOL...\n";
@@ -88,7 +89,7 @@ std::set<int> eps_closure(std::set<int> states, Table &tab) {
     new_states = {};
     
     for(int s : states) {
-      for(Instr in : tab.instrs) {
+      for(Instr &in : tab.instrs) {
         if(in.scan == "" && in.src == s) {
           for(int d : in.dests) {
             if(!states.count(d)) {
@@ -114,7 +115,7 @@ std::set<int> transition(std::set<int> states, std::string symbol, Table &tab) {
   std::set<int> dests;
   
   // follow all state transitions for given symbol
-  for(Instr in : tab.instrs) {
+  for(Instr &in : tab.instrs) {
     if(states.count(in.src) && in.scan == symbol) {
       for(int d : in.dests) {
         dests.insert(d);
@@ -126,13 +127,39 @@ std::set<int> transition(std::set<int> states, std::string symbol, Table &tab) {
   return dests;
 }
 
-int main(int argc, char **argv)
-{
+// returns true if accepted
+bool run(Table &tab, std::vector<std::string> tape) {
+  std::set<int> states{tab.start};
+  
+  for(std::string s : tape) {
+    states = transition(states, s, tab);
+  }
+
+  bool accept = false;
+  for(int f : tab.final) {
+    if(states.count(f)) {
+      accept = true;
+    }
+  }
+
+  return accept;
+}
+
+bool run(Table &tab, std::vector<char> tape) {
+  std::vector<std::string> newtape;
+  for(char c : tape) {
+    newtape.push_back(std::string(1,c));
+  }
+
+  return run(tab, newtape);
+}
+
+void readrunFA(int argc, char **argv, bool verbose) {
   // read instructions
   Table tab;
   read(argc, argv, tab);
 
-  bool verbose = true;
+  // bool verbose = true;
 
   if(verbose) {
     std::cout << "start " << tab.start << " end ";
@@ -141,7 +168,7 @@ int main(int argc, char **argv)
     }
     std::cout << std::endl;
 
-    for(Instr in : tab.instrs) {
+    for(Instr &in : tab.instrs) {
       std::cout << in;
     }
   }
@@ -166,9 +193,12 @@ int main(int argc, char **argv)
   for(int i = 2; i < argc; i++) {
     std::string symb = argv[i];
     states = transition(states, symb, tab);
-    for(int s : states) {
-      std::cout << s << " ";
-      std::cout << std::endl;
+    
+    if(verbose) {
+      for(int s : states) {
+        std::cout << s << " ";
+        std::cout << std::endl;
+      }
     }
   }
   
@@ -192,4 +222,23 @@ int main(int argc, char **argv)
   } else {
     std::cout << "rejected\n";
   }
+}
+
+int main(int argc, char **argv)
+{
+  // readrunFA(argc, argv, false);
+
+  Regex r1 {LIT, {}, "a"};
+  Regex r2 = {STAR, {&r1}, ""};
+  Table *tab = r2fa(r2, 0);
+  std::cout << *tab;
+
+  if(argc != 2) {
+    std::cerr << "usage: " << argv[0] << " TAPE\n";
+  }
+  std::string str = argv[1];
+  std::vector<char> tape(str.begin(), str.end());
+  
+  bool accept = run(*tab, tape);
+  std::cout << (accept ? "accepted" : "rejected") << std::endl;
 }

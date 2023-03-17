@@ -15,4 +15,6 @@ public:
   std::string lit;
 };
 
+Table *r2fa(Regex &reg, int minstate);
+
 #endif

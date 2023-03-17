@@ -23,4 +23,6 @@ public:
   }
 };
 
+std::ostream &operator<<(std::ostream &out, Table &tab);
+
 #endif
