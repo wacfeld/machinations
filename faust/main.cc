@@ -74,8 +74,8 @@ bool run(Table &tab, std::vector<std::string> tape, bool verbose) {
   states = eps_closure(states, tab);
   
   if(verbose) {
-    std::cout << "starting states ";
-    std::cout << states;
+    std::cerr << "starting states ";
+    std::cerr << states;
   }
 
   for(std::string s : tape) {
@@ -85,7 +85,7 @@ bool run(Table &tab, std::vector<std::string> tape, bool verbose) {
     // }
     // std::cout << std::endl;
     if(verbose) {
-      std::cout << states;
+      std::cerr << states;
     }
   }
 
@@ -125,11 +125,11 @@ void readrunFA(int argc, char **argv, bool verbose) {
   // bool verbose = true;
 
   if(verbose) {
-    std::cout << "start " << tab.start << " end ";
-    std::cout << tab.final;
+    std::cerr << "start " << tab.start << " end ";
+    std::cerr << tab.final;
 
     for(Instr &in : tab.instrs) {
-      std::cout << in;
+      std::cerr << in;
     }
   }
 
@@ -145,17 +145,25 @@ void readrunFA(int argc, char **argv, bool verbose) {
   bool accept = run(tab, tape, verbose);
 
   if(accept) {
-    std::cout << "accepted\n";
+    std::cerr << "accepted\n";
   } else {
-    std::cout << "rejected\n";
+    std::cerr << "rejected\n";
   }
 }
 
 int main(int argc, char **argv)
 {
-  Regex *r = cat("hello");
-  Table *tab = r2fa(*r, 0);
-  std::cout << *tab;
+  // Regex *r = cat("hello");
+  Regex *num = alt("0123");
+  Regex *lower = alt("abc");
+  Regex *upper = alt("ABC");
+  Regex *alpha = alt(std::vector<Regex *>{lower, upper});
+
+  Regex *username = cat({alpha, star(alpha), num, star(num)});
+  
+  Table *tab = r2fa(*username, 0);
+  
+  std::cerr << *tab;
   
   std::string str;
   if(argc == 1) {
@@ -169,10 +177,10 @@ int main(int argc, char **argv)
   }
   
   bool accept = run(*tab, str, false);
-  std::cout << (accept ? "ACCEPT" : "REJECT") << std::endl;
+  std::cerr << (accept ? "ACCEPT" : "REJECT") << std::endl;
 
   tab2dot(std::cout, *tab);
 
   delete tab;
-  delete r;
+  // delete r;
 }
