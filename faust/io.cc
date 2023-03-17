@@ -106,8 +106,8 @@ void tab2dot(std::ostream &out, Table &tab) {
 
   // make nodes circle-shaped by default
   out << "node [shape=circle]\n";
-  // make start state box-shaped
-  out << tab.start << " [shape=box]\n";
+  // make start state square-shaped
+  out << tab.start << " [shape=square]\n";
   // make final states double circles
   for(int s : tab.final) {
     out << s << " [shape=doublecircle]\n";
