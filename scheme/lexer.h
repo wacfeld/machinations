@@ -10,7 +10,7 @@
 #include "../faust/io.h"
 
 // token type
-enum ttype {BOOL, IDENT, NUM, OPAR, CPAR, QUOT};
+enum ttype {BOOL, IDENT, NUM, OPAR, CPAR, QUOT, NONE};
 
 class Token {
 public:
