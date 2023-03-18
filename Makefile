@@ -1,5 +1,5 @@
 .PHONY: all
 all:
-	colormake -C turing
-	colormake -C faust
-	colormake -C scheme
+	make -C turing
+	make -C faust
+	make -C scheme

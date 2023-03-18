@@ -12,11 +12,16 @@ Regex::Regex(rtype type, std::vector<Regex *> children, std::string lit):
 }
 
 void cleanup() {
+  // std::cerr << "deleting " << regs.size() << " regexes\n";
   for(Regex *r : regs) {
     delete r;
   }
 
   regs = {};
+}
+
+Table *r2fa(Regex &reg) {
+  return r2fa(reg, 0);
 }
 
 // invariant: final has exactly 1 element which is the max state number

@@ -108,13 +108,13 @@ bool run(Table &tab, std::vector<char> tape, bool verbose) {
   return run(tab, newtape, verbose);
 }
 
-bool run(Table &tab, std::string tape, bool verbose) {
+bool match(Table &tab, std::string tape) {
   std::vector<std::string> newtape;
   for(char c : tape) {
     newtape.push_back(std::string(1,c));
   }
 
-  return run(tab, newtape, verbose);
+  return run(tab, newtape, false);
 }
 
 void readrunFA(int argc, char **argv, bool verbose) {
@@ -151,6 +151,7 @@ void readrunFA(int argc, char **argv, bool verbose) {
   }
 }
 
+
 int main(int argc, char **argv)
 {
   // Regex *r = cat("hello");
@@ -179,7 +180,7 @@ int main(int argc, char **argv)
     std::cerr << "usage: " << argv[0] << " TAPE\n";
   }
   
-  bool accept = run(*tab, str, false);
+  bool accept = match(*tab, str);
   std::cerr << (accept ? "ACCEPT" : "REJECT") << std::endl;
 
   // tab2dot(std::cout, *tab);

@@ -46,6 +46,7 @@ Regex *lit(char s);
 Regex *quest(char c);
 
 Table *r2fa(Regex &reg, int minstate);
+Table *r2fa(Regex &reg);
 
 typedef std::vector<Regex*> RV;
 
