@@ -13,12 +13,18 @@
 // }
 
 std::ostream &operator<<(std::ostream &out, Table &tab) {
-  out << "start " << tab.start << std::endl;
+  // out << "start " << tab.start << std::endl;
   
-  out << "final";
+  // out << "final";
+  // for(int f : tab.final) {
+  //   out << " " << f;
+  // }
+  out << tab.start;
   for(int f : tab.final) {
     out << " " << f;
   }
+  out << std::endl;
+  
   out << std::endl;
 
   for(Instr &in : tab.instrs) {
