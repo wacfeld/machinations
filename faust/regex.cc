@@ -2,6 +2,23 @@
 
 #include "regex.h"
 
+std::vector<Regex *> regs;
+
+Regex::Regex(rtype type, std::vector<Regex *> children, std::string lit):
+  type{type}, children{children}, lit{lit}
+{
+  regs.push_back(this);
+  // std::cout << "deleting reg\n";
+}
+
+void cleanup() {
+  for(Regex *r : regs) {
+    delete r;
+  }
+
+  regs = {};
+}
+
 // invariant: final has exactly 1 element which is the max state number
 Table *r2fa(Regex &reg, int minstate) {
   Table *tab = new Table;
@@ -84,6 +101,18 @@ Table *r2fa(Regex &reg, int minstate) {
 
 Regex *star(Regex *r) {
   return new Regex {STAR, {r}, ""};
+}
+
+Regex *plus(Regex *r) {
+  return cat(RV {r, star(r)});
+}
+
+Regex *quest(Regex *r) {
+  return alt(RV {cat(RV {}), r});
+}
+
+Regex *quest(char c) {
+  return quest(lit(c));
 }
 
 Regex *alt(std::vector<Regex *> rv) {

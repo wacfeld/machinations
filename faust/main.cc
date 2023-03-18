@@ -154,16 +154,19 @@ void readrunFA(int argc, char **argv, bool verbose) {
 int main(int argc, char **argv)
 {
   // Regex *r = cat("hello");
-  Regex *num = alt("0123");
+  Regex *num = alt("0123456789");
   Regex *lower = alt("abc");
   Regex *upper = alt("ABC");
   Regex *alpha = alt(std::vector<Regex *>{lower, upper});
 
-  Regex *username = cat({alpha, star(alpha), num, star(num)});
+  Regex *number = plus(num);
+  Regex *NUMBER = cat(RV {quest('-'), number});
+
+  // Regex *username = cat({alpha, star(alpha), num, star(num)});
   
-  Table *tab = r2fa(*username, 0);
+  Table *tab = r2fa(*NUMBER, 0);
   
-  std::cerr << *tab;
+  // std::cerr << *tab;
   
   std::string str;
   if(argc == 1) {
@@ -179,7 +182,7 @@ int main(int argc, char **argv)
   bool accept = run(*tab, str, false);
   std::cerr << (accept ? "ACCEPT" : "REJECT") << std::endl;
 
-  tab2dot(std::cout, *tab);
+  // tab2dot(std::cout, *tab);
 
   delete tab;
   // delete r;

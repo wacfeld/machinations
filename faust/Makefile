@@ -6,7 +6,8 @@ OBJECTS = main.o instr.o table.o regex.o io.o
 DEPENDS = ${OBJECTS:.o=.d}
 ${EXEC}: ${OBJECTS}
 	${CXX} ${OBJECTS} ${CXXFLAGS} -o ${EXEC} ${LIBS}
-	mv ${OBJECTS} ${EXEC} ../bin
+	cp ${OBJECTS} ${EXEC} ../bin
+	ar rcs ../bin/regex.a ../bin/*.o
 -include ${DEPENDS}
 .PHONY: clean
 clean:
