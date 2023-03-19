@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -g -MMD -Wall -fcompare-debug-second
+CXXFLAGS = -std=c++14 -g -MMD -Wall -fcompare-debug-second -O3
 EXEC = $(shell basename $(CURDIR)).out
 LIBS = 
 OBJECTS = main.o lexer.o

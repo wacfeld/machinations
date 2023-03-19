@@ -10,7 +10,7 @@
 #include "../faust/io.h"
 
 // token type
-enum ttype {BOOL, IDENT, NUM, OPAR, CPAR, QUOT, NONE};
+enum ttype {NONE, BOOL, IDENT, NUM, OPAR, CPAR, QUOT};
 
 class Token {
 public:
@@ -25,6 +25,9 @@ public:
   Token(ttype t): type{t} {}
 };
 
+std::ostream &operator<<(std::ostream &out, ttype);
+
 void setup();
+ttype classify(std::string s);
 
 #endif
