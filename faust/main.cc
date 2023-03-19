@@ -22,101 +22,6 @@
 //   return dests;
 // }
 
-std::set<int> eps_closure(std::set<int> states, Table &tab) {
-  
-  std::set<int> new_states;
-  do {
-    // populate new_states
-    new_states = {};
-    
-    for(int s : states) {
-      for(Instr &in : tab.instrs) {
-        if(in.scan == "" && in.src == s) {
-          for(int d : in.dests) {
-            if(!states.count(d)) {
-              new_states.insert(d);
-            }
-          }
-        }
-      }
-    }
-
-    // union new_states with states
-    for(int s : new_states) {
-      states.insert(s);
-    }
-    
-  } while(!new_states.empty());
-
-  return states;
-}
-
-std::set<int> transition(std::set<int> states, std::string symbol, Table &tab) {
-  
-  std::set<int> dests;
-  
-  // follow all state transitions for given symbol
-  for(Instr &in : tab.instrs) {
-    if(states.count(in.src) && in.scan == symbol) {
-      for(int d : in.dests) {
-        dests.insert(d);
-      }
-    }
-  }
-
-  dests = eps_closure(dests, tab);
-  return dests;
-}
-
-// returns true if accepted
-bool run(Table &tab, std::vector<std::string> tape, bool verbose) {
-  std::set<int> states{tab.start};
-  states = eps_closure(states, tab);
-  
-  if(verbose) {
-    std::cerr << "starting states ";
-    std::cerr << states;
-  }
-
-  for(std::string s : tape) {
-    states = transition(states, s, tab);
-    // for(int s : states) {
-    //   std::cout << s << " ";
-    // }
-    // std::cout << std::endl;
-    if(verbose) {
-      std::cerr << states;
-    }
-  }
-
-  bool accept = false;
-  for(int f : tab.final) {
-    if(states.count(f)) {
-      accept = true;
-    }
-  }
-
-  return accept;
-}
-
-bool run(Table &tab, std::vector<char> tape, bool verbose) {
-  std::vector<std::string> newtape;
-  for(char c : tape) {
-    newtape.push_back(std::string(1,c));
-  }
-
-  return run(tab, newtape, verbose);
-}
-
-bool match(Table &tab, std::string tape) {
-  std::vector<std::string> newtape;
-  for(char c : tape) {
-    newtape.push_back(std::string(1,c));
-  }
-
-  return run(tab, newtape, false);
-}
-
 void readrunFA(int argc, char **argv, bool verbose) {
   // read instructions
   Table tab;
@@ -156,9 +61,9 @@ int main(int argc, char **argv)
 {
   // Regex *r = cat("hello");
   Regex *num = alt("0123456789");
-  Regex *lower = alt("abc");
-  Regex *upper = alt("ABC");
-  Regex *alpha = alt(std::vector<Regex *>{lower, upper});
+  // Regex *lower = alt("abc");
+  // Regex *upper = alt("ABC");
+  // Regex *alpha = alt(std::vector<Regex *>{lower, upper});
 
   Regex *number = plus(num);
   Regex *NUMBER = cat(RV {quest('-'), number});

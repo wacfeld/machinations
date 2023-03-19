@@ -2,9 +2,11 @@
 #define REGEX_H
 
 #include <vector>
+#include <set>
 
 #include "table.h"
 #include "instr.h"
+#include "io.h"
 
 enum rtype {CAT, ALT, LIT, STAR};
 
@@ -50,5 +52,8 @@ Table *r2fa(Regex &reg);
 
 typedef std::vector<Regex*> RV;
 
+bool match(Table &tab, std::string tape);
+bool run(Table &tab, std::vector<std::string> tape, bool verbose);
+bool run(Table &tab, std::vector<char> tape, bool verbose);
 
 #endif
