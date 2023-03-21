@@ -33,9 +33,7 @@ std::ostream &operator<<(std::ostream &out, ttype t)
 
 // write next token from s into t
 int nexttoken(std::string s, Token &t) {
-  for(unsigned long i = 1; i < s.size(); i++) {
-    
-  }
+  if(
 }
 
 // boolean identifier integer ' ( )
@@ -97,22 +95,22 @@ int longestint(std::string s)
   return i;
 }
 
-bool isbool(std::string s)
+bool hasbool(std::string s)
 {
-  return (s == "#f") || (s == "#t");
+  return (s[0] == '#') && ((s[1] == 'f') || (s[1] == 't'));
 }
 
-bool isquote(std::string s)
+bool hasquote(std::string s)
 {
-  return s == "'";
+  return s[0] == '\'';
 }
 
-bool isopar(std::string s)
+bool hasopar(std::string s)
 {
-  return s == "(";
+  return s[0] == '(';
 }
 
-bool iscpar(std::string s)
+bool hascpar(std::string s)
 {
-  return s == ")";
+  return s[0] == ')';
 }

@@ -19,10 +19,10 @@ public:
   Token(ttype t): type{t} {}
 };
 
-bool isbool(std::string s);
-bool isquote(std::string s);
-bool isopar(std::string s);
-bool iscpar(std::string s);
+bool hasbool(std::string s);
+bool hasquote(std::string s);
+bool hasopar(std::string s);
+bool hascpar(std::string s);
 int longestident(std::string s);
 int longestint(std::string s);
 
