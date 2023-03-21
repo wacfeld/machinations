@@ -3,7 +3,7 @@
 
 #include <string>
 
-enum atype {NUM, SYMB};
+enum atype {NUMBER, SYMBOL};
 
 class Atom {
   atype type;

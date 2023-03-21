@@ -2,6 +2,12 @@
 #define LEXER_H
 
 #include <string>
+#include <iostream>
+#include <ctype.h>
+#include <sstream>
+#include <stdlib.h>
+#include <vector>
+#include <string.h>
 
 #include "sexp.h"
 
@@ -22,7 +28,7 @@ public:
   Token(ttype t): type{t} {}
 };
 
-int nexttoken(std::string s, Token &T);
+bool nexttoken(std::istream &in, Token &T);
 
 bool hasbool(std::string s);
 bool hasquote(std::string s);

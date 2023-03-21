@@ -1,10 +1,3 @@
-#include <ctype.h>
-#include <string.h>
-#include <iostream>
-#include <sstream>
-#include <stdlib.h>
-#include <vector>
-
 #include "lexer.h"
 
 std::ostream &operator<<(std::ostream &out, Token t)
@@ -44,71 +37,89 @@ std::ostream &operator<<(std::ostream &out, ttype t)
 //   } while(depth);
 // }
 
-// write next token from s into t
-// return length of token read
-int nexttoken(std::string s, Token &T)
+// read a token into T
+// return true if success
+bool nexttoken(std::istream &in, Token &T)
 {
+  static std::string buf = "";
+
+  if(buf == "") {
+    in >> buf;
+    if(in.fail()) {
+      return false;
+    }
+  }
+  
+  int nr = 0; // number of characters read
+  
   // #t #f
-  if(hasbool(s)) {
-    if(s[1] == 't') {
+  if(hasbool(buf)) {
+    if(buf[1] == 't') {
       T = Token {true};
     } else {
       T = Token {false};
     }
 
-    return 2;
+    nr = 2;
   }
 
   // '
-  else if(hasquote(s)) {
+  else if(hasquote(buf)) {
     T = Token {QUOT};
-    return 1;
+    nr = 1;
   }
   
   // (
-  else if(hasopar(s)) {
+  else if(hasopar(buf)) {
     T = Token {OPAR};
-    return 1;
+    nr = 1;
   }
 
   // )
-  else if(hascpar(s)) {
+  else if(hascpar(buf)) {
     T = Token {CPAR};
-    return 1;
+    nr = 1;
   }
 
-  int lint = longestint(s);
-  int lident = longestident(s);
+  int lint = longestint(buf);
+  int lident = longestident(buf);
   
   if((lint >= lident) && lint) {
     int n;
-    std::istringstream iss{s};
+    std::istringstream iss{buf};
     iss >> n;
     T = Token {n};
-    return lint;
+    nr = lint;
   }
 
   else if(lident) {
     std::string id;
     for(int i = 0; i < lident; i++) {
-      id += s[i];
+      id += buf[i];
     }
     T = Token {id};
-    return lident;
+    nr = lident;
   }
 
-  else {
-    // std::cerr << "couldn't recognize token from " << s << std::endl;
-    // exit(1);
-    return 0;
+  if(nr == 0) {
+    if(!buf.empty()) {
+      std::cerr << "no tokens in sight: " << buf << std::endl;
+      exit(1);
+    }
+    return false;
   }
+
+  // move buffer forward
+  buf = buf.substr(nr);
+
+  return true;
 }
 
 // boolean identifier integer ' ( )
 
 bool isext(char c)
 {
-  static char ext[] = "!$%&*+-./:<=>?@^_~";
+  static const char ext[] = "!$%&*+-./:<=>?@^_~";
   return strchr(ext, c);
 }
 
