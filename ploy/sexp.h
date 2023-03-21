@@ -12,12 +12,18 @@ class Atom {
 };
 
 class Sexp {
-  bool eol;
   bool atom;
   Atom a;
 
   Sexp *car;
   Sexp *cdr;
+
+  Sexp(bool atom): atom{atom} {}
+
+  ~Sexp() {
+    delete car;
+    delete cdr;
+  }
 };
 
 #endif

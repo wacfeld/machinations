@@ -28,6 +28,7 @@ public:
   Token(ttype t): type{t} {}
 };
 
+std::vector<Token> read_tokens(std::istream &in);
 bool nexttoken(std::istream &in, Token &T);
 
 bool hasbool(std::string s);

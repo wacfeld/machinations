@@ -27,15 +27,38 @@ std::ostream &operator<<(std::ostream &out, ttype t)
   return out;
 }
 
-// // read tokens until parentheses are balanced
-// std::vector<Token> read_tokens(std::istream &in) {
-//   int depth = 0;
+// read tokens until parentheses are balanced
+std::vector<Token> read_tokens(std::istream &in)
+{
+  int depth = 0;
+  std::vector<Token> toks;
 
-//   do {
-//     Token T;
-//     nexttoken(
-//   } while(depth);
-// }
+  do {
+    Token T;
+    bool success = nexttoken(in, T);
+    if(!success) {
+      if(!depth) {
+        return toks;
+      }
+      std::cerr << depth << " unmatched opening parentheses\n";
+      exit(1);
+    }
+
+    if(T.type == OPAR) {
+      depth++;
+    } else if(T.type == CPAR) {
+      depth--;
+    }
+
+    if(depth < 0) {
+      std::cerr << "unmatched closing parenthesis\n";
+    }
+
+    toks.push_back(T);
+  } while(depth);
+
+  return toks;
+}
 
 // read a token into T
 // return true if success
@@ -102,11 +125,11 @@ bool nexttoken(std::istream &in, Token &T)
   }
 
   if(nr == 0) {
-    if(!buf.empty()) {
+    // if(!buf.empty()) {
       std::cerr << "no tokens in sight: " << buf << std::endl;
       exit(1);
-    }
-    return false;
+    // }
+    // return false;
   }
 
   // move buffer forward
