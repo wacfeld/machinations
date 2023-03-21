@@ -13,11 +13,14 @@ public:
   std::string i;
   int n;
 
+  Token(): type{NONE} {}
   Token(bool b): type{BOOL}, b{b} {}
   Token(int n): type{NUM}, n{n} {}
   Token(std::string i): type{IDENT}, i{i} {}
   Token(ttype t): type{t} {}
 };
+
+int nexttoken(std::string s, Token &T);
 
 bool hasbool(std::string s);
 bool hasquote(std::string s);

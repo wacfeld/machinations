@@ -1,10 +1,11 @@
-#include "lexer.h"
-
 #include <ctype.h>
 #include <string.h>
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
+#include <vector>
+
+#include "lexer.h"
 
 std::ostream &operator<<(std::ostream &out, Token t)
 {
@@ -32,6 +33,8 @@ std::ostream &operator<<(std::ostream &out, ttype t)
   else if(t == NONE) out << "NONE";
   return out;
 }
+
+// std::vector<Token>
 
 // write next token from s into t
 // return length of token read
@@ -87,8 +90,9 @@ int nexttoken(std::string s, Token &T)
   }
 
   else {
-    std::cerr << "couldn't recognize token from " << s << std::endl;
-    exit(1);
+    // std::cerr << "couldn't recognize token from " << s << std::endl;
+    // exit(1);
+    return 0;
   }
 }
 
