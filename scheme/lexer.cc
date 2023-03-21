@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <iostream>
+#include <sstream>
+#include <stdlib.h>
 
 std::ostream &operator<<(std::ostream &out, Token t)
 {
@@ -32,9 +34,61 @@ std::ostream &operator<<(std::ostream &out, ttype t)
 }
 
 // write next token from s into t
-int nexttoken(std::string s, Token &t) {
+// return length of token read
+int nexttoken(std::string s, Token &T)
+{
+  // #t #f
   if(hasbool(s)) {
-    if(s[1]
+    if(s[1] == 't') {
+      T = Token {true};
+    } else {
+      T = Token {false};
+    }
+
+    return 2;
+  }
+
+  // '
+  else if(hasquote(s)) {
+    T = Token {QUOT};
+    return 1;
+  }
+  
+  // (
+  else if(hasopar(s)) {
+    T = Token {OPAR};
+    return 1;
+  }
+
+  // )
+  else if(hascpar(s)) {
+    T = Token {CPAR};
+    return 1;
+  }
+
+  int lint = longestint(s);
+  int lident = longestident(s);
+  
+  if((lint >= lident) && lint) {
+    int n;
+    std::istringstream iss{s};
+    iss >> n;
+    T = Token {n};
+    return lint;
+  }
+
+  else if(lident) {
+    std::string id;
+    for(int i = 0; i < lident; i++) {
+      id += s[i];
+    }
+    T = Token {id};
+    return lident;
+  }
+
+  else {
+    std::cerr << "couldn't recognize token from " << s << std::endl;
+    exit(1);
   }
 }
 
