@@ -43,4 +43,6 @@ public:
 Sexp *get_sexp(std::vector<Token> toks);
 Sexp *get_list(std::vector<Token> toks);
 
+extern Sexp *the_empty_list;
+
 #endif

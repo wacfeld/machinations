@@ -1,5 +1,8 @@
 #include "sexp.h"
 
+// gets initialized in main
+Sexp *the_empty_list;
+
 // convert tokens into sexp
 // toks is guaranteed to contain exactly 1 sexp
 Sexp *get_sexp(std::vector<Token> toks) {
@@ -49,6 +52,40 @@ Sexp *get_sexp(std::vector<Token> toks) {
 }
 
 Sexp *get_list(std::vector<Token> toks) {
+
+  // base case: empty list
+  if(toks.empty()) {
+    return the_empty_list;
+  }
   
+  Sexp *e = new Sexp{false};
+  
+  // grab first element of list
+  std::vector<Token> first;
+  int depth = 0;
+  int i = 0;
+  do {
+    Token &T = toks[i];
+    
+    if(T.type == OPAR)
+      depth++;
+    else if(T.type == CPAR)
+      depth--;
+    
+    first.push_back(T);
+    
+    i++;
+  } while(depth);
+
+  // delete first element from toks
+  toks.erase(toks.begin(), toks.begin() + i);
+
+  // recurse down
+  e->car = get_sexp(first);
+
+  // recurse sideways
+  e->cdr = get_list(toks);
+
+  return e;
 }
 

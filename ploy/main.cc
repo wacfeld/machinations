@@ -2,8 +2,10 @@
 #include <stdlib.h>
 
 #include "lexer.h"
+#include "sexp.h"
 
 int main(int argc, char **argv) {
+  the_empty_list = new Sexp{false};
   // Token T;
   // while(nexttoken(std::cin, T)) {
   //   std::cout << "  " << T << std::endl;
