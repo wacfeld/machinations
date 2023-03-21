@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "sexp.h"
+
 // token type
 enum ttype {NONE, BOOL, IDENT, NUM, OPAR, CPAR, QUOT};
 

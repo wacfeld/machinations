@@ -34,7 +34,15 @@ std::ostream &operator<<(std::ostream &out, ttype t)
   return out;
 }
 
-// std::vector<Token>
+// // read tokens until parentheses are balanced
+// std::vector<Token> read_tokens(std::istream &in) {
+//   int depth = 0;
+
+//   do {
+//     Token T;
+//     nexttoken(
+//   } while(depth);
+// }
 
 // write next token from s into t
 // return length of token read
