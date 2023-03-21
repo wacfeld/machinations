@@ -33,7 +33,7 @@ std::ostream &operator<<(std::ostream &out, ttype t)
 
 // write next token from s into t
 int nexttoken(std::string s, Token &t) {
-  for(int i = 1; i < s.size(); i++) {
+  for(unsigned long i = 1; i < s.size(); i++) {
     
   }
 }
@@ -46,29 +46,26 @@ bool isext(char c)
   return strchr(ext, c);
 }
 
-bool isident(std::string s)
+int longestident(std::string s)
 {
-  if(s.empty()) {
-    return false;
-  }
-  
   bool hasnondigit = false;
-  for(char c : s) {
-    if(isalpha(c) || isext(c)) {
+  unsigned long i;
+  
+  for(i = 0; i < s.size(); i++) {
+    if(!isdigit(s[i]) && !isalpha(s[i]) && !isext(s[i])) {
+      break;
+    }
+
+    if(!isdigit(s[i])) {
       hasnondigit = true;
     }
-
-    if(!isalpha(c) && !isdigit(c) && !isext(c)) {
-      return false;
-    }
   }
 
-  return hasnondigit;
-}
-
-bool isbool(std::string s)
-{
-  return (s == "#f") || (s == "#t");
+  if(hasnondigit) {
+    return i;
+  } else {
+    return 0;
+  }
 }
 
 bool issign(char c)
@@ -76,28 +73,33 @@ bool issign(char c)
   return (c == '+') || (c == '-');
 }
 
-// optional sign followed by 1 or more digits
-bool isint(std::string s)
+int longestint(std::string s)
 {
   if(s.empty()) {
-    return false;
+    return 0;
   }
 
   if(issign(s[0])) {
-    if(s.size() == 1) {
-      return false;
+    if(s.size() == 1 || !isdigit(s[1])) {
+      return 0;
     }
   } else if(!isdigit(s[0])) {
-    return false;
+    return 0;
   }
   
-  for(unsigned long i = 1; i < s.size(); i++) {
+  unsigned long i;
+  for(i = 1; i < s.size(); i++) {
     if(!isdigit(s[i])) {
-      return false;
+      break;
     }
   }
-  
-  return true;
+
+  return i;
+}
+
+bool isbool(std::string s)
+{
+  return (s == "#f") || (s == "#t");
 }
 
 bool isquote(std::string s)

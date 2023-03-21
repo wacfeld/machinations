@@ -19,12 +19,12 @@ public:
   Token(ttype t): type{t} {}
 };
 
-bool isident(std::string s);
 bool isbool(std::string s);
-bool isint(std::string s);
 bool isquote(std::string s);
 bool isopar(std::string s);
 bool iscpar(std::string s);
+int longestident(std::string s);
+int longestint(std::string s);
 
 std::ostream &operator<<(std::ostream &out, ttype t);
 std::ostream &operator<<(std::ostream &out, Token t);
