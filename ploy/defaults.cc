@@ -1,9 +1,10 @@
 #include "defaults.h"
 #include "lexer.h"
+#include "proc.h"
 
 void defaults()
 {
-  bind("length", list_len);
+  // bind("length", list_len);
 }
 
 // get length of list

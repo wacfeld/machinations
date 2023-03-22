@@ -5,17 +5,6 @@
 
 // gets initialized in main
 Sexp *the_empty_list;
-std::map<std::string, Sexp*> bindings;
-
-void bind(std::string name, Sexp *e)
-{
-  bindings[name] = e;
-}
-
-void bind(std::string name, Sexp *(*f)(Sexp *))
-{
-  Sexp *e = new Sexp{false};
-}
 
 Sexp *eval(Sexp *e)
 {

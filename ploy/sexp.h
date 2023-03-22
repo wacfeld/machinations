@@ -48,8 +48,5 @@ int list_len(Sexp *e);
 Sexp *eval(Sexp *e);
 
 extern Sexp *the_empty_list;
-
-extern std::map<std::string, Sexp*> bindings;
-void bind(std::string name, Sexp *e);
   
 #endif
