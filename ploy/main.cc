@@ -17,9 +17,11 @@ int main(int argc, char **argv)
   // for(Token &T : toks) {
   //   std::cout << "  " << T << std::endl;
   // }
-  std::cout << toks << std::endl;
-
-
-  // Sexp *e = get_sexp(toks);
-  // put_sexp(std::cout, e);
+  // std::cout << toks << std::endl;
+  
+  Sexp *e = get_sexp(toks);
+  std::cout << e << std::endl;
+  Sexp *f = eval(e);
+  std::cout << f << std::endl;
+  // std::cout << list_len(e) << std::endl;
 }

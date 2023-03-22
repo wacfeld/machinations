@@ -1,4 +1,5 @@
 #include "sexp.h"
+#include "forms.h"
 
 // gets initialized in main
 Sexp *the_empty_list;
@@ -14,6 +15,25 @@ std::ostream &operator<<(std::ostream &out, Atom &a)
   }
 
   return out;
+}
+
+void flat_sexp(std::ostream &out, Sexp *e, bool open)
+{
+  if(e->atom) {
+    out << e->a << " ";
+  }
+
+  else if(e == the_empty_list) {
+    out << ") ";
+  }
+
+  else {
+    if(open) {
+      out << "( ";
+    }
+    flat_sexp(out, e->car, true);
+    flat_sexp(out, e->cdr, false);
+  }
 }
 
 void put_sexp(std::ostream &out, Sexp *e, int indent)
@@ -38,7 +58,48 @@ void put_sexp(std::ostream &out, Sexp *e, int indent)
   }
 }
 
-// TODO deal with ' alias
+std::ostream &operator<<(std::ostream &out, Sexp *e)
+{
+  flat_sexp(out, e);
+  return out;
+}
+
+// get length of list
+int list_len(Sexp *e)
+{
+  if(e->atom) {
+    std::cerr << "cannot get length of non-list\n";
+    exit(1);
+  }
+  
+  else if(e == the_empty_list) {
+    return 0;
+  }
+  
+  else {
+    return 1 + list_len(e->cdr);
+  }
+}
+
+Sexp *eval(Sexp *e)
+{
+  // atom, evaluates to itself
+  if(e->atom) {
+    return e;
+  }
+
+  // syntactic form
+  else if(is_form(e->car)) {
+    return eval_form(e);
+  }
+
+  // function call
+  else {
+    // TODO
+    std::cerr << "function call hasn't been implemented yet\n";
+    exit(1);
+  }
+}
 
 // convert tokens into sexp
 // toks is guaranteed to contain exactly 1 sexp

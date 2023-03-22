@@ -43,8 +43,13 @@ public:
 Sexp *get_sexp(std::vector<Token> toks);
 Sexp *get_list(std::vector<Token> toks);
 
+int list_len(Sexp *e);
+Sexp *eval(Sexp *e);
+
+std::ostream &operator<<(std::ostream &out, Sexp *e);
 std::ostream &operator<<(std::ostream &out, Atom &a);
 void put_sexp(std::ostream &out, Sexp *e, int indent=0);
+void flat_sexp(std::ostream &out, Sexp *e, bool open=true);
 
 extern Sexp *the_empty_list;
 
