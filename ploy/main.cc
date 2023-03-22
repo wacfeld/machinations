@@ -8,6 +8,7 @@
 
 int main(int argc, char **argv)
 {
+  defaults();
   the_empty_list = new Sexp{false};
   // Token T;
   // while(nexttoken(std::cin, T)) {

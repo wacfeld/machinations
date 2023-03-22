@@ -17,9 +17,16 @@ Sexp *eval(Sexp *e)
 
     // symbol
     else {
-      // TODO
-      std::cerr << "symbol lookup hasn't been implemented yet\n";
-      exit(1);
+      // lookup in bindings
+      std::string &name = e->a.symb;
+      if(bindings.count(name)) {
+        return bindings[name];
+      }
+      
+      else {
+        std::cerr << "name '" << name << "' has no binding\n";
+        exit(1);
+      }
     }
   }
 
