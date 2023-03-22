@@ -89,6 +89,7 @@ bool nexttoken(std::istream &in, Token &T)
 {
   static std::string buf = "";
 
+top:
   if(buf == "") {
     in >> buf;
     if(in.fail()) {
@@ -97,9 +98,22 @@ bool nexttoken(std::istream &in, Token &T)
   }
   
   int nr = 0; // number of characters read
+
+  // comment
+  if(buf[0] == ';') {
+    // ignore until end of line
+    std::string temp;
+    getline(in, temp);
+    if(in.fail()) {
+      return false;
+    }
+    
+    buf = "";
+    goto top;
+  }
   
   // #t #f
-  if(hasbool(buf)) {
+  else if(hasbool(buf)) {
     if(buf[1] == 't') {
       T = Token {true};
     } else {
