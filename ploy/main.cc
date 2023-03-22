@@ -15,4 +15,7 @@ int main(int argc, char **argv) {
   for(Token &T : toks) {
     std::cout << "  " << T << std::endl;
   }
+
+  Sexp *e = get_sexp(toks);
+  put_sexp(std::cout, e);
 }

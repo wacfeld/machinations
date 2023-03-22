@@ -3,6 +3,43 @@
 // gets initialized in main
 Sexp *the_empty_list;
 
+std::ostream &operator<<(std::ostream &out, Atom &a)
+{
+  if(a.type == NUMBER) {
+    out << a.num;
+  } else if(a.type == SYMBOL) {
+    out << a.symb;
+  } else if(a.type == BOOLEAN) {
+    out << (a.b ? "#t" : "#f");
+  }
+
+  return out;
+}
+
+void put_sexp(std::ostream &out, Sexp *e, int indent)
+{
+  // indent
+  for(int i = 0; i < indent; i++) {
+    out << ' ';
+  }
+  
+  if(e == the_empty_list) {
+    out << "[/]" << std::endl;
+  }
+
+  else if(e->atom) {
+    out << e->a << std::endl;
+  }
+
+  else {
+    out << "[ ]" << std::endl;
+    put_sexp(out, e->car, indent+2);
+    put_sexp(out, e->cdr, indent+2);
+  }
+}
+
+// TODO deal with ' alias
+
 // convert tokens into sexp
 // toks is guaranteed to contain exactly 1 sexp
 Sexp *get_sexp(std::vector<Token> toks) {
