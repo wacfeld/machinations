@@ -83,9 +83,18 @@ int list_len(Sexp *e)
 
 Sexp *eval(Sexp *e)
 {
-  // atom, evaluates to itself
+  // atom
   if(e->atom) {
-    return e;
+    // number or boolean evaluates to itself
+    if(e->a.type == NUMBER || e->a.type == BOOLEAN)
+      return e;
+
+    // symbol
+    else {
+      // TODO
+      std::cerr << "symbol lookup hasn't been implemented yet\n";
+      exit(1);
+    }
   }
 
   // syntactic form
