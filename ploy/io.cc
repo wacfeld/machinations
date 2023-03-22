@@ -35,6 +35,9 @@ void flat_sexp(std::ostream &out, Sexp *e, bool open)
   }
 
   else if(e == the_empty_list) {
+    if(open) {
+      out << "(";
+    }
     out << ") ";
   }
 
