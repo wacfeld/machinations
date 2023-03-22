@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <map>
 
 #include "lexer.h"
 
@@ -46,11 +47,9 @@ Sexp *get_list(std::vector<Token> toks);
 int list_len(Sexp *e);
 Sexp *eval(Sexp *e);
 
-std::ostream &operator<<(std::ostream &out, Sexp *e);
-std::ostream &operator<<(std::ostream &out, Atom &a);
-void put_sexp(std::ostream &out, Sexp *e, int indent=0);
-void flat_sexp(std::ostream &out, Sexp *e, bool open=true);
-
 extern Sexp *the_empty_list;
+extern std::map<std::string, Sexp*> bindings;
 
+void bind(std::string name, Sexp *e);
+  
 #endif

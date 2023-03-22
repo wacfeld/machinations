@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++14 -g -MMD -Wall -fcompare-debug-second
 EXEC = $(shell basename $(CURDIR)).out
 LIBS = 
-OBJECTS = main.o lexer.o sexp.o forms.o
+OBJECTS = main.o lexer.o sexp.o forms.o io.o
 DEPENDS = ${OBJECTS:.o=.d}
 ${EXEC}: ${OBJECTS}
 	${CXX} ${OBJECTS} ${CXXFLAGS} -o ${EXEC} ${LIBS}

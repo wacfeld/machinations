@@ -5,6 +5,7 @@
 #include <string>
 
 #include "sexp.h"
+#include "io.h"
 
 extern std::set<std::string> forms;
 bool is_form(Sexp *e);

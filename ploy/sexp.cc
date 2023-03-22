@@ -1,68 +1,10 @@
 #include "sexp.h"
 #include "forms.h"
+#include "io.h"
 
 // gets initialized in main
 Sexp *the_empty_list;
-
-std::ostream &operator<<(std::ostream &out, Atom &a)
-{
-  if(a.type == NUMBER) {
-    out << a.num;
-  } else if(a.type == SYMBOL) {
-    out << a.symb;
-  } else if(a.type == BOOLEAN) {
-    out << (a.b ? "#t" : "#f");
-  }
-
-  return out;
-}
-
-void flat_sexp(std::ostream &out, Sexp *e, bool open)
-{
-  if(e->atom) {
-    out << e->a << " ";
-  }
-
-  else if(e == the_empty_list) {
-    out << ") ";
-  }
-
-  else {
-    if(open) {
-      out << "( ";
-    }
-    flat_sexp(out, e->car, true);
-    flat_sexp(out, e->cdr, false);
-  }
-}
-
-void put_sexp(std::ostream &out, Sexp *e, int indent)
-{
-  // indent
-  for(int i = 0; i < indent; i++) {
-    out << ' ';
-  }
-  
-  if(e == the_empty_list) {
-    out << "[/]" << std::endl;
-  }
-
-  else if(e->atom) {
-    out << e->a << std::endl;
-  }
-
-  else {
-    out << "[ ]" << std::endl;
-    put_sexp(out, e->car, indent+2);
-    put_sexp(out, e->cdr, indent+2);
-  }
-}
-
-std::ostream &operator<<(std::ostream &out, Sexp *e)
-{
-  flat_sexp(out, e);
-  return out;
-}
+std::map<std::string, Sexp*> bindings;
 
 // get length of list
 int list_len(Sexp *e)

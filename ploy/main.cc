@@ -3,6 +3,7 @@
 
 #include "lexer.h"
 #include "sexp.h"
+#include "io.h"
 
 int main(int argc, char **argv)
 {

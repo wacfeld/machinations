@@ -38,8 +38,4 @@ bool hascpar(std::string s);
 int longestident(std::string s);
 int longestint(std::string s);
 
-std::ostream &operator<<(std::ostream &out, std::vector<Token> &toks);
-std::ostream &operator<<(std::ostream &out, ttype t);
-std::ostream &operator<<(std::ostream &out, Token t);
-
 #endif

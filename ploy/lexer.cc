@@ -1,48 +1,7 @@
 #include <stack>
 
 #include "lexer.h"
-
-std::ostream &operator<<(std::ostream &out, std::vector<Token> &toks)
-{
-  for(Token &T : toks) {
-    out << T << " ";
-  }
-  
-  return out;
-}
-
-std::ostream &operator<<(std::ostream &out, Token t)
-{
-  // out << t.type << ' ';
-  if(t.type == OPAR) {
-    out << '(';
-  } else if(t.type == CPAR) {
-    out << ')';
-  } else if(t.type == QUOT) {
-    out << '\'';
-  } else if(t.type == BOOL) {
-    out << (t.b ? "#t" : "#f");
-  } else if(t.type == IDENT) {
-    out << t.i;
-  } else if(t.type == NUM) {
-    out << t.n;
-  }
-
-  return out;
-}
-
-
-std::ostream &operator<<(std::ostream &out, ttype t)
-{
-  if(t == BOOL) out << "BOOL";
-  else if(t == IDENT) out << "IDENT";
-  else if(t == NUM) out << "NUM";
-  else if(t == OPAR) out << "OPAR";
-  else if(t == CPAR) out << "CPAR";
-  else if(t == QUOT) out << "QUOT";
-  else if(t == NONE) out << "NONE";
-  return out;
-}
+#include "io.h"
 
 // read tokens until parentheses are balanced
 std::vector<Token> read_tokens(std::istream &in)
