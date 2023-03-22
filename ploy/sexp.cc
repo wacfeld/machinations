@@ -41,7 +41,7 @@ int list_len(Sexp *e)
 }
 
 // everything except #f is true
-bool eval_bool(Sexp *e)
+bool eval_truth(Sexp *e)
 {
   if(!e->atom)
     return true;

@@ -3,7 +3,7 @@
 
 // syntactic forms are quote, if, begin, cond, etc.
 std::set<std::string> forms {
-  "quote",
+  "quote", "if",
 };
 
 // true if e is syntactic form
@@ -39,7 +39,20 @@ Sexp *eval_form(Sexp *e)
   else if(f == "if") {
     check_length(f, e->cdr, 3);
 
-    Sexp *cond = eval(e->cdr->car);
+    // evaluate condition
+    Sexp *args = e->cdr;
+    Sexp *cond = eval(index(args, 1));
+    bool truth = eval_truth(cond);
+    
+    // evaluate first branch
+    if(truth) {
+      return eval(index(args, 2));
+    }
+
+    // evaluate second branch
+    else {
+      return eval(index(args, 3));
+    }
   }
 
   else {
