@@ -28,6 +28,11 @@ Sexp *call(Proc proc, Sexp *args)
 {
   // primitive procedure call
   if(proc.prim) {
-    
+    return (proc.f)(args);
+  }
+
+  else {
+    std::cerr << "non-primitive procedure call hasn't been implemented\n";
+    exit(1);
   }
 }

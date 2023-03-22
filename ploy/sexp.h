@@ -48,6 +48,7 @@ Sexp *get_list(std::vector<Token> toks);
 
 int list_len(Sexp *e);
 Sexp *eval(Sexp *e);
+Sexp *eval_list(Sexp *e);
 
 extern Sexp *the_empty_list;
   

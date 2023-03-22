@@ -6,5 +6,7 @@
 // int list_len(Sexp *e);
 
 void defaults();
+bool isnum(Sexp *e);
+Sexp *add(Sexp *args);
 
 #endif
