@@ -24,7 +24,7 @@ public:
   Atom() {}
   Atom(int n): type{NUMBER}, num{n} {}
   Atom(std::string s): type{SYMBOL}, symb{s} {}
-  Atom(bool b): type{BOOLEAN}, boole{boole} {}
+  Atom(bool b): type{BOOLEAN}, boole{b} {}
 };
 
 class Sexp {
