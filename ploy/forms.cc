@@ -32,6 +32,7 @@ Sexp *eval_form(Sexp *e)
 
   else {
     std::cerr << "don't recognize syntactic form " << f << std::endl;
-    exit(1);
+    // exit(1);
+    longjmp(repl_start, 1);
   }
 }

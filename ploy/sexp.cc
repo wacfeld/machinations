@@ -25,7 +25,8 @@ Sexp *eval(Sexp *e)
       
       else {
         std::cerr << "name '" << name << "' has no binding\n";
-        exit(1);
+        // exit(1);
+        longjmp(repl_start, 1);
       }
     }
   }
@@ -41,7 +42,8 @@ Sexp *eval(Sexp *e)
     Sexp *car = eval(e->car);
     if(!isproc(car)) {
       std::cerr << "car of procedure call is not procedure\n";
-      exit(1);
+      // exit(1);
+      longjmp(repl_start, 1);
     }
 
     // evaluate arguments
@@ -92,7 +94,8 @@ Sexp *get_sexp(std::vector<Token> toks) {
 
     else {
       std::cerr << "unrecognized atom token" << T << std::endl;
-      exit(1);
+      // exit(1);
+      longjmp(repl_start, 1);
     }
 
     return e;
@@ -103,13 +106,15 @@ Sexp *get_sexp(std::vector<Token> toks) {
     // remove opening and closing parenthesis
     if(toks[0].type != OPAR) {
       std::cerr << "list does not start with '('\n";
-      exit(1);
+      // exit(1);
+      longjmp(repl_start, 1);
     }
     toks.erase(toks.begin());
 
     if(toks.back().type != CPAR) {
       std::cerr << "list does not end with ')'\n";
-      exit(1);
+      // exit(1);
+      longjmp(repl_start, 1);
     }
     toks.pop_back();
 

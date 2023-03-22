@@ -18,7 +18,8 @@ std::vector<Token> read_tokens(std::istream &in)
         return toks;
       }
       std::cerr << depth << " unmatched opening parentheses\n";
-      exit(1);
+      // exit(1);
+      longjmp(repl_start, 1);
     }
 
     if(T.type == OPAR) {
@@ -149,7 +150,8 @@ bool nexttoken(std::istream &in, Token &T)
   if(nr == 0) {
     // if(!buf.empty()) {
       std::cerr << "no tokens in sight: " << buf << std::endl;
-      exit(1);
+      // exit(1);
+      longjmp(repl_start, 1);
     // }
     // return false;
   }

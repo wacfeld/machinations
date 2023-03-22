@@ -33,6 +33,7 @@ Sexp *call(Proc proc, Sexp *args)
 
   else {
     std::cerr << "non-primitive procedure call hasn't been implemented\n";
-    exit(1);
+    // exit(1);
+    longjmp(repl_start, 1);
   }
 }
