@@ -60,11 +60,6 @@ std::ostream &operator<<(std::ostream &out, Sexp *e)
   return out;
 }
 
-void bind(std::string name, Sexp *e)
-{
-  bindings[name] = e;
-}
-
 std::ostream &operator<<(std::ostream &out, std::vector<Token> &toks)
 {
   for(Token &T : toks) {

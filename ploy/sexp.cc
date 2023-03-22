@@ -6,6 +6,11 @@
 Sexp *the_empty_list;
 std::map<std::string, Sexp*> bindings;
 
+void bind(std::string name, Sexp *e)
+{
+  bindings[name] = e;
+}
+
 // get length of list
 int list_len(Sexp *e)
 {
