@@ -13,9 +13,12 @@ int main(int argc, char **argv)
   // }
 
   std::vector<Token> toks = read_tokens(std::cin);
-  for(Token &T : toks) {
-    std::cout << "  " << T << std::endl;
-  }
+  toks = expand_quote(toks);
+  // for(Token &T : toks) {
+  //   std::cout << "  " << T << std::endl;
+  // }
+  std::cout << toks << std::endl;
+
 
   // Sexp *e = get_sexp(toks);
   // put_sexp(std::cout, e);

@@ -23,11 +23,13 @@ public:
   Token(bool b): type{BOOL}, b{b} {}
   Token(int n): type{NUM}, n{n} {}
   Token(std::string i): type{IDENT}, i{i} {}
+  Token(const char *s): type{IDENT}, i{s} {}
   Token(ttype t): type{t} {}
 };
 
 std::vector<Token> read_tokens(std::istream &in);
 bool nexttoken(std::istream &in, Token &T);
+std::vector<Token> expand_quote(std::vector<Token> toks);
 
 bool hasbool(std::string s);
 bool hasquote(std::string s);
@@ -36,6 +38,7 @@ bool hascpar(std::string s);
 int longestident(std::string s);
 int longestint(std::string s);
 
+std::ostream &operator<<(std::ostream &out, std::vector<Token> &toks);
 std::ostream &operator<<(std::ostream &out, ttype t);
 std::ostream &operator<<(std::ostream &out, Token t);
 

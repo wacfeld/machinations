@@ -1,10 +1,27 @@
+#include <stack>
+
 #include "lexer.h"
+
+std::ostream &operator<<(std::ostream &out, std::vector<Token> &toks)
+{
+  for(Token &T : toks) {
+    out << T << " ";
+  }
+  
+  return out;
+}
 
 std::ostream &operator<<(std::ostream &out, Token t)
 {
-  out << t.type << ' ';
-  if(t.type == BOOL) {
-    out << t.b;
+  // out << t.type << ' ';
+  if(t.type == OPAR) {
+    out << '(';
+  } else if(t.type == CPAR) {
+    out << ')';
+  } else if(t.type == QUOT) {
+    out << '\'';
+  } else if(t.type == BOOL) {
+    out << (t.b ? "#t" : "#f");
   } else if(t.type == IDENT) {
     out << t.i;
   } else if(t.type == NUM) {
@@ -58,6 +75,51 @@ std::vector<Token> read_tokens(std::istream &in)
   } while(depth || T.type == QUOT);
 
   return toks;
+}
+
+void close_quote(std::vector<Token> &new_toks, std::stack<int> &marks, int &depth)
+{
+  while(!marks.empty() && (depth == marks.top())) {
+    new_toks.push_back(Token{CPAR});
+    depth--;
+    marks.pop();
+  }
+}
+
+// '(1 2 '3) -> (quote (1 2 (quote 3)))
+std::vector<Token> expand_quote(std::vector<Token> toks)
+{
+  int depth = 0;
+  std::stack<int> marks;
+
+  std::vector<Token> new_toks;
+  
+  for(Token &T : toks) {
+    
+    if(T.type == QUOT) {
+      new_toks.push_back(Token{OPAR});
+      new_toks.push_back(Token{"quote"});
+      // std::cerr << new_toks.back().i << std::endl;
+      
+      depth++;
+      marks.push(depth);
+    }
+    else {
+      if(T.type == OPAR)
+        depth++;
+      else if(T.type == CPAR)
+        depth--;
+      new_toks.push_back(T);
+      close_quote(new_toks, marks, depth);
+    }
+
+    // else {
+    // }
+
+  }
+  close_quote(new_toks, marks, depth);
+
+  return new_toks;
 }
 
 // read a token into T
