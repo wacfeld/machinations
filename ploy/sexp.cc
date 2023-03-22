@@ -2,6 +2,7 @@
 #include "forms.h"
 #include "io.h"
 #include "defaults.h"
+#include "proc.h"
 
 // gets initialized in main
 Sexp *the_empty_list;

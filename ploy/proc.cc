@@ -1,4 +1,5 @@
 #include "proc.h"
+#include "sexp.h"
 
 std::map<std::string, Sexp*> bindings;
 
@@ -9,5 +10,6 @@ void bind(std::string name, Sexp *e)
 
 void bind(std::string name, Sexp *(*f)(Sexp *))
 {
-  // Sexp *e = new Sexp{false};
+  Sexp *e = new Sexp{true};
+  // e->a.type = PROCEDURE
 }

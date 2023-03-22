@@ -8,6 +8,7 @@
 #include <map>
 
 #include "lexer.h"
+#include "proc.h"
 
 enum atype {NUMBER, SYMBOL, BOOLEAN, PROCEDURE};
 
@@ -17,6 +18,7 @@ public:
   int num;
   std::string symb;
   bool b;
+  Proc proc;
 
   Atom() {}
   Atom(int n): type{NUMBER}, num{n} {}
