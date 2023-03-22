@@ -1,5 +1,16 @@
 #include "io.h"
 
+std::ostream &operator<<(std::ostream &out, Proc &p)
+{
+  if(p.prim) {
+    out << p.f;
+  } else {
+    std::cerr << "non-primitive procedure operator<< not supported\n";
+  }
+
+  return out;
+}
+
 std::ostream &operator<<(std::ostream &out, Atom &a)
 {
   if(a.type == NUMBER) {
@@ -8,6 +19,10 @@ std::ostream &operator<<(std::ostream &out, Atom &a)
     out << a.symb;
   } else if(a.type == BOOLEAN) {
     out << (a.boole ? "#t" : "#f");
+  } else if(a.type == PROCEDURE) {
+    out << "[proc ";
+    printf("%p", a.proc.f);
+    out << "]";
   }
 
   return out;
