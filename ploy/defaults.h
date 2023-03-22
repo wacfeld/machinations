@@ -2,6 +2,7 @@
 #define DEFAULTS_H
 
 #include "sexp.h"
+#include "repl.h"
 
 // int list_len(Sexp *e);
 

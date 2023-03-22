@@ -9,6 +9,7 @@
 
 #include "lexer.h"
 #include "proc.h"
+#include "repl.h"
 
 enum atype {NUMBER, SYMBOL, BOOLEAN, PROCEDURE};
 

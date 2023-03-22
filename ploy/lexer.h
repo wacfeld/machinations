@@ -9,6 +9,8 @@
 #include <vector>
 #include <string.h>
 
+#include "repl.h"
+
 // token type
 enum ttype {NONE, BOOL, IDENT, NUM, OPAR, CPAR, QUOT};
 

@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 
+#include "repl.h"
+
 class Sexp;
 
 class Proc {

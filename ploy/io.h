@@ -4,6 +4,7 @@
 #include "lexer.h"
 #include "sexp.h"
 #include "form.h"
+#include "repl.h"
 
 std::ostream &operator<<(std::ostream &out, Sexp *e);
 std::ostream &operator<<(std::ostream &out, Atom &a);
