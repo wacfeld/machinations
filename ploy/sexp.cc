@@ -7,6 +7,39 @@
 // gets initialized in main
 Sexp *the_empty_list;
 
+
+Sexp *index(Sexp *e, int i)
+{
+  if(e->atom) {
+    std::cerr << "trying to index non-list\n";
+    longjmp(repl_start, 1);
+  }
+  
+  if(i == 1) {
+    return e->car;
+  }
+
+  return index(e->cdr, i-1);
+}
+
+// get length of list
+int list_len(Sexp *e)
+{
+  if(e->atom) {
+    std::cerr << "cannot get length of non-list\n";
+    // exit(1);
+    longjmp(repl_start, 1);
+  }
+  
+  else if(e == the_empty_list) {
+    return 0;
+  }
+  
+  else {
+    return 1 + list_len(e->cdr);
+  }
+}
+
 // everything except #f is true
 bool eval_bool(Sexp *e)
 {

@@ -31,18 +31,16 @@ Sexp *eval_form(Sexp *e)
   std::string &f = e->car->a.symb;
 
   if(f == "quote") {
-    // if(list_len(e->cdr) != 1) {
-    //   std::cerr << f << " requires 1 argument\n";
-    //   longjmp(repl_start, 1);
-    // }
     check_length(f, e->cdr, 1);
 
-    return e->cdr->car;
+    return index(e, 2);
   }
 
-  // else if(f == "if") {
-  //   if(list_len(
-  // }
+  else if(f == "if") {
+    check_length(f, e->cdr, 3);
+
+    Sexp *cond = eval(e->cdr->car);
+  }
 
   else {
     std::cerr << "don't recognize syntactic form " << f << std::endl;
