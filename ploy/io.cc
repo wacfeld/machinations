@@ -54,9 +54,9 @@ void put_sexp(std::ostream &out, Sexp *e, int indent)
   }
 }
 
-std::ostream &operator<<(std::ostream &out, Sexp *e)
+std::ostream &operator<<(std::ostream &out, Sexp &e)
 {
-  flat_sexp(out, e);
+  flat_sexp(out, &e);
   return out;
 }
 
