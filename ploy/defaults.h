@@ -1,5 +1,5 @@
-#ifndef PROCS_H
-#define PROCS_H
+#ifndef DEFAULTS_H
+#define DEFAULTS_H
 
 #include "sexp.h"
 
