@@ -33,8 +33,8 @@ std::vector<Token> read_tokens(std::istream &in)
   int depth = 0;
   std::vector<Token> toks;
 
+  Token T;
   do {
-    Token T;
     bool success = nexttoken(in, T);
     if(!success) {
       if(!depth) {
@@ -55,7 +55,7 @@ std::vector<Token> read_tokens(std::istream &in)
     }
 
     toks.push_back(T);
-  } while(depth);
+  } while(depth || T.type == QUOT);
 
   return toks;
 }

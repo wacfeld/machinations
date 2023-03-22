@@ -4,7 +4,8 @@
 #include "lexer.h"
 #include "sexp.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   the_empty_list = new Sexp{false};
   // Token T;
   // while(nexttoken(std::cin, T)) {
@@ -16,6 +17,6 @@ int main(int argc, char **argv) {
     std::cout << "  " << T << std::endl;
   }
 
-  Sexp *e = get_sexp(toks);
-  put_sexp(std::cout, e);
+  // Sexp *e = get_sexp(toks);
+  // put_sexp(std::cout, e);
 }
