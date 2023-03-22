@@ -76,6 +76,10 @@ Sexp *eval(Sexp *e)
     }
   }
 
+  else if(e == the_empty_list) {
+    return e;
+  }
+
   // syntactic form
   else if(is_form(e->car)) {
     return eval_form(e);
