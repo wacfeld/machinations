@@ -28,12 +28,39 @@ Sexp *eval(Sexp *e)
     return eval_form(e);
   }
 
-  // function call
+  // procedure call
   else {
-    // TODO
-    std::cerr << "function call hasn't been implemented yet\n";
-    exit(1);
+    // evaluate car (should evaluate to procedure)
+    Sexp *car = eval(e->car);
+    if(!isproc(car)) {
+      std::cerr << "car of procedure call is not procedure\n";
+      exit(1);
+    }
+
+    // evaluate arguments
+    Sexp *cdr = eval_list(e->cdr);
+
+    // call procedure
+    return call(car->a.proc, cdr);
   }
+}
+
+// evaluate every element in list and return the new list
+Sexp *eval_list(Sexp *e)
+{
+  if(e->atom) {
+    std::cerr << "eval_list(): asked to evaluate non-list\n";
+  }
+
+  if(e == the_empty_list) {
+    return e;
+  }
+  
+  Sexp *newe = new Sexp{false};
+  newe->car = eval(e->car);
+  newe->cdr = eval_list(e->cdr);
+
+  return newe;
 }
 
 // convert tokens into sexp

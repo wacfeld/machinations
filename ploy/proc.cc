@@ -17,3 +17,17 @@ void bind(std::string name, Sexp *(*f)(Sexp *))
 
   bind(name, e);
 }
+
+bool isproc(Sexp *e)
+{
+  return e->atom && (e->a.type == PROCEDURE);
+}
+
+// call procedure proc on list of arguments args
+Sexp *call(Proc proc, Sexp *args)
+{
+  // primitive procedure call
+  if(proc.prim) {
+    
+  }
+}
