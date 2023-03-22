@@ -7,6 +7,18 @@
 // gets initialized in main
 Sexp *the_empty_list;
 
+// everything except #f is true
+bool eval_bool(Sexp *e)
+{
+  if(!e->atom)
+    return true;
+  
+  if(e->a.type != BOOLEAN)
+    return true;
+  
+  return e->a.boole;
+}
+
 Sexp *eval(Sexp *e)
 {
   // atom
