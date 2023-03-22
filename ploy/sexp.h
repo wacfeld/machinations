@@ -17,13 +17,13 @@ public:
   atype type;
   int num;
   std::string symb;
-  bool b;
+  bool boole;
   Proc proc;
 
   Atom() {}
   Atom(int n): type{NUMBER}, num{n} {}
   Atom(std::string s): type{SYMBOL}, symb{s} {}
-  Atom(bool b): type{BOOLEAN}, b{b} {}
+  Atom(bool b): type{BOOLEAN}, boole{boole} {}
 };
 
 class Sexp {

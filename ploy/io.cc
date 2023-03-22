@@ -7,7 +7,7 @@ std::ostream &operator<<(std::ostream &out, Atom &a)
   } else if(a.type == SYMBOL) {
     out << a.symb;
   } else if(a.type == BOOLEAN) {
-    out << (a.b ? "#t" : "#f");
+    out << (a.boole ? "#t" : "#f");
   }
 
   return out;
