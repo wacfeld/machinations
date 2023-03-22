@@ -2,6 +2,7 @@
 
 #include "lexer.h"
 #include "io.h"
+#include "procs.h"
 
 // read tokens until parentheses are balanced
 std::vector<Token> read_tokens(std::istream &in)

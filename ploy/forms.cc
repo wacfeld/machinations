@@ -1,3 +1,4 @@
+#include "procs.h"
 #include "forms.h"
 
 // syntactic forms are quote, if, begin, cond, etc.

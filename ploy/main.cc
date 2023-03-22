@@ -4,6 +4,7 @@
 #include "lexer.h"
 #include "sexp.h"
 #include "io.h"
+#include "procs.h"
 
 int main(int argc, char **argv)
 {

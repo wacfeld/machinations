@@ -1,6 +1,7 @@
 #include "sexp.h"
 #include "forms.h"
 #include "io.h"
+#include "procs.h"
 
 // gets initialized in main
 Sexp *the_empty_list;
@@ -9,23 +10,6 @@ std::map<std::string, Sexp*> bindings;
 void bind(std::string name, Sexp *e)
 {
   bindings[name] = e;
-}
-
-// get length of list
-int list_len(Sexp *e)
-{
-  if(e->atom) {
-    std::cerr << "cannot get length of non-list\n";
-    exit(1);
-  }
-  
-  else if(e == the_empty_list) {
-    return 0;
-  }
-  
-  else {
-    return 1 + list_len(e->cdr);
-  }
 }
 
 Sexp *eval(Sexp *e)
