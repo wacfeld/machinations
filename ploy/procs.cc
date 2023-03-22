@@ -1,10 +1,10 @@
 #include "procs.h"
 #include "lexer.h"
 
-// void defaults()
-// {
-  
-// }
+void defaults()
+{
+  bind("length", list_len);
+}
 
 // get length of list
 int list_len(Sexp *e)

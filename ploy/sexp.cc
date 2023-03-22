@@ -12,12 +12,17 @@ void bind(std::string name, Sexp *e)
   bindings[name] = e;
 }
 
+void bind(std::string name, Sexp *(*f)(Sexp *))
+{
+  Sexp *e = new Sexp{false};
+}
+
 Sexp *eval(Sexp *e)
 {
   // atom
   if(e->atom) {
-    // number or boolean evaluates to itself
-    if(e->a.type == NUMBER || e->a.type == BOOLEAN)
+    // number, boolean, or procedure evaluates to itself
+    if(e->a.type == NUMBER || e->a.type == BOOLEAN || e->a.type == PROCEDURE)
       return e;
 
     // symbol

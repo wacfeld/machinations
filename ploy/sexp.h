@@ -9,7 +9,7 @@
 
 #include "lexer.h"
 
-enum atype {NUMBER, SYMBOL, BOOLEAN};
+enum atype {NUMBER, SYMBOL, BOOLEAN, PROCEDURE};
 
 class Atom {
 public:
@@ -48,8 +48,8 @@ int list_len(Sexp *e);
 Sexp *eval(Sexp *e);
 
 extern Sexp *the_empty_list;
-extern std::map<std::string, Sexp*> bindings;
 
+extern std::map<std::string, Sexp*> bindings;
 void bind(std::string name, Sexp *e);
   
 #endif

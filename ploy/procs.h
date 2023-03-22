@@ -3,8 +3,8 @@
 
 #include "sexp.h"
 
-int list_len(Sexp *e);
+// int list_len(Sexp *e);
 
-void defaults()
+void defaults();
 
 #endif
