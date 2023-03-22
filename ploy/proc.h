@@ -12,7 +12,7 @@ public:
   Sexp *(*f)(Sexp *);
 };
 
-// extern std::map<std::string, Sexp*> bindings;
-// void bind(std::string name, Sexp *e);
+extern std::map<std::string, Sexp*> bindings;
+void bind(std::string name, Sexp *e);
 
 #endif

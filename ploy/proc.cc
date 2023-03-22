@@ -11,5 +11,9 @@ void bind(std::string name, Sexp *e)
 void bind(std::string name, Sexp *(*f)(Sexp *))
 {
   Sexp *e = new Sexp{true};
-  // e->a.type = PROCEDURE
+  e->a.type = PROCEDURE;
+  e->a.proc.prim = true;
+  e->a.proc.f = f;
+
+  bind(name, e);
 }
