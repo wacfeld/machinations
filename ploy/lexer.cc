@@ -111,6 +111,11 @@ top:
     buf = "";
     goto top;
   }
+
+  else if(hasdot(buf)) {
+    T = Token {DOT};
+    nr = 1;
+  }
   
   // #t #f
   else if(hasbool(buf)) {
@@ -180,7 +185,8 @@ top:
 
 bool isext(char c)
 {
-  static const char ext[] = "!$%&*+-./:<=>?@^_~";
+  // static const char ext[] = "!$%&*+-./:<=>?@^_~";
+  static const char ext[] = "!$%&*+-/:<=>?@^_~"; // no dot
   return strchr(ext, c);
 }
 
@@ -251,6 +257,12 @@ bool hasopar(std::string s)
 {
   if(s.empty()) return false;
   return s[0] == '(';
+}
+
+bool hasdot(std::string s)
+{
+  if(s.empty()) return false;
+  return s[0] == '.';
 }
 
 bool hascpar(std::string s)

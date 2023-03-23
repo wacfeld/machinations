@@ -172,14 +172,29 @@ Sexp *get_sexp(std::vector<Token> toks) {
   }
 }
 
-Sexp *get_list(std::vector<Token> toks) {
+// true toks contains exactly 1 s-expression
+bool solitary(std::vector<Token> toks)
+{
+  int depth = 0;
+  unsigned long i = 0;
+  do {
+    if(toks[i].type == OPAR)
+      depth++;
+    else if(toks[i].type == CPAR)
+      depth--;
+    i++;
+  } while(depth);
+
+  return i == toks.size();
+}
+
+Sexp *get_list(std::vector<Token> toks)
+{
 
   // base case: empty list
   if(toks.empty()) {
     return the_empty_list;
   }
-  
-  Sexp *e = new Sexp{false};
   
   // grab first element of list
   std::vector<Token> first;
@@ -201,9 +216,24 @@ Sexp *get_list(std::vector<Token> toks) {
   // delete first element from toks
   toks.erase(toks.begin(), toks.begin() + i);
 
+  // (a . b) cons dot
+  if(first.size() == 1) {
+    if(first[0].type == DOT) {
+      // check that only one element remaining
+      if(!solitary(toks)) {
+        std::cerr << "invalid . use\n";
+        longjmp(repl_start, 1);
+      }
+
+      // recurse down
+      Sexp *e = get_sexp(toks);
+      return e;
+    }
+  }
+
+  Sexp *e = new Sexp{false};
   // recurse down
   e->car = get_sexp(first);
-
   // recurse sideways
   e->cdr = get_list(toks);
 

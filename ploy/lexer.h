@@ -12,7 +12,7 @@
 #include "repl.h"
 
 // token type
-enum ttype {NONE, BOOL, IDENT, NUM, OPAR, CPAR, QUOT};
+enum ttype {NONE, BOOL, IDENT, NUM, OPAR, CPAR, QUOT, DOT};
 
 class Token {
 public:
@@ -33,6 +33,7 @@ std::vector<Token> read_tokens(std::istream &in);
 bool nexttoken(std::istream &in, Token &T);
 std::vector<Token> expand_quote(std::vector<Token> toks);
 
+bool hasdot(std::string s);
 bool hasbool(std::string s);
 bool hasquote(std::string s);
 bool hasopar(std::string s);
