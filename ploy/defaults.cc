@@ -8,6 +8,8 @@ void defaults()
   // bind("length", list_len);
   bind("+", add);
   bind("cons", cons);
+  bind("car", car);
+  bind("cdr", cdr);
 }
 
 bool isnum(Sexp *e)
@@ -25,6 +27,36 @@ Sexp *cons(Sexp *args)
   e->car = a;
   e->cdr = b;
   return e;
+}
+
+Sexp *car(Sexp *args)
+{
+  check_length(__func__, args, 1);
+  Sexp *a = args->car;
+  if(a->atom) {
+    std::cerr << "car given atom\n";
+    longjmp(repl_start, 1);
+  }
+  if(a == the_empty_list) {
+    std::cerr << "cannot take car on ()\n";
+    longjmp(repl_start, 1);
+  }
+  return a->car;
+}
+
+Sexp *cdr(Sexp *args)
+{
+  check_length(__func__, args, 1);
+  Sexp *a = args->car;
+  if(a->atom) {
+    std::cerr << "cdr given atom\n";
+    longjmp(repl_start, 1);
+  }
+  if(a == the_empty_list) {
+    std::cerr << "cannot take cdr on ()\n";
+    longjmp(repl_start, 1);
+  }
+  return a->cdr;
 }
 
 Sexp *add(Sexp *args)
