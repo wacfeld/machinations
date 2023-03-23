@@ -18,7 +18,8 @@ bool is_form(Sexp *e)
   return forms.count(e->a.symb);
 }
 
-void check_length(std::string &f, Sexp *e, int len) {
+void check_length(const std::string &f, Sexp *e, int len)
+{
   int ll = list_len(e);
   if(ll != len) {
     std::cerr << f << " requires " << len << " argument(s); received " << ll << std::endl;

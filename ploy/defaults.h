@@ -8,6 +8,7 @@
 
 void defaults();
 bool isnum(Sexp *e);
+Sexp *cons(Sexp *args);
 Sexp *add(Sexp *args);
 
 #endif
