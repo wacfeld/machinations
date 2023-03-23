@@ -31,7 +31,13 @@ std::ostream &operator<<(std::ostream &out, Atom &a)
 void flat_sexp(std::ostream &out, Sexp *e, bool open)
 {
   if(e->atom) {
+    if(!open) {
+      out << ". ";
+    }
     out << e->a << " ";
+    if(!open) {
+      out << ") ";
+    }
   }
 
   else if(e == the_empty_list) {
