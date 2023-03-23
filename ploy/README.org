@@ -1,1 +1,3 @@
 ploy is based off scheme
+
+update: ploy has been moved to [[https://github.com/wacfeld/ploy]]
